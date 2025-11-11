@@ -160,3 +160,77 @@ class SysUserLogin(Schema):
 class SysUserProfile(Schema):
     gender: int
     nickname: str
+<<<<<<< HEAD
+=======
+
+
+# TestPlan
+class TestPlanIn(Schema):
+    name: str
+    code: str
+    description: Optional[str] = ''
+    start_time: Optional[str] = Field(None, alias='startTime')
+    end_time: Optional[str] = Field(None, alias='endTime')
+    owner_id: Optional[int] = Field(None, alias='ownerId')
+    owner_name: Optional[str] = Field(None, alias='ownerName')
+    priority: int = 2
+    status: int = 1
+    test_type: Optional[str] = Field(None, alias='testType')
+    test_env: Optional[str] = Field(None, alias='testEnv')
+    related_project: Optional[str] = Field(None, alias='relatedProject')
+    remark: Optional[str] = ''
+
+class TestPlanOut(Schema):
+    id: int
+    name: str
+    code: str
+    description: Optional[str] = ''
+    start_time: Optional[str] = Field(None, alias='startTime')
+    end_time: Optional[str] = Field(None, alias='endTime')
+    owner_id: Optional[int] = Field(None, alias='ownerId')
+    owner_name: Optional[str] = Field(None, alias='ownerName')
+    priority: int
+    status: int
+    test_type: Optional[str] = Field(None, alias='testType')
+    test_env: Optional[str] = Field(None, alias='testEnv')
+    related_project: Optional[str] = Field(None, alias='relatedProject')
+    remark: Optional[str] = ''
+    create_user: int = Field(..., alias='createUser')
+    create_time: str = Field(..., alias='createTime')
+    update_user: Optional[int] = Field(None, alias='updateUser')
+    update_time: Optional[str] = Field(None, alias='updateTime')
+
+
+# TpgenSavedPlan
+class TpgenSavedPlanIn(Schema):
+    name: str
+    category: str
+    description: Optional[str] = ''
+    config_data: dict = Field(..., alias='configData')
+    yaml_data: Optional[dict] = Field(None, alias='yamlData')
+    cpu: Optional[str] = None
+    gpu: Optional[str] = None
+    machine_count: int = Field(0, alias='machineCount')
+    os_type: Optional[str] = Field(None, alias='osType')
+    kernel_type: Optional[str] = Field(None, alias='kernelType')
+    test_case_count: int = Field(0, alias='testCaseCount')
+    status: int = 1
+    tags: Optional[str] = ''
+
+class TpgenSavedPlanUpdate(Schema):
+    name: Optional[str] = None
+    category: Optional[str] = None
+    description: Optional[str] = None
+    config_data: Optional[dict] = Field(None, alias='configData')
+    yaml_data: Optional[dict] = Field(None, alias='yamlData')
+    cpu: Optional[str] = None
+    gpu: Optional[str] = None
+    machine_count: Optional[int] = Field(None, alias='machineCount')
+    os_type: Optional[str] = Field(None, alias='osType')
+    kernel_type: Optional[str] = Field(None, alias='kernelType')
+    test_case_count: Optional[int] = Field(None, alias='testCaseCount')
+    status: Optional[int] = None
+    tags: Optional[str] = None
+
+
+>>>>>>> 9af31be6cb22fdb430351d6de76e81dd03ff4c58
