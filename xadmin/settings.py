@@ -54,6 +54,8 @@ INSTALLED_APPS = [
     "tpgen",  # Test Plan Generator
 
     "xadmin_tpgen",
+    
+    "yaml_test_plan",  # YAML 测试计划验证模块（独立）
 
 ]
 

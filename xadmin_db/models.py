@@ -624,7 +624,6 @@ class SysUserSocial(models.Model):
         return f"<{self.user_id}, {self.open_id}>"
 
 
-
 class TestPlan(ModelSaveMixin, models.Model):
     id = models.BigAutoField(primary_key=True, db_comment='ID')
     name = models.CharField(max_length=100, db_comment='测试计划名称')
@@ -711,4 +710,3 @@ class TpgenSavedPlan(ModelSaveMixin, models.Model):
     
     def __str__(self):
         return f'<{self.id}, {self.name}>'
-

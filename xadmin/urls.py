@@ -20,5 +20,7 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('system/', include('xadmin_auth.urls')),
-    path('tpgen/', include('xadmin_tpgen.urls')),
+    path('tpgen/', include('xadmin_tpgen.urls')),  # TPGEN 管理后台 API
+    path('tp/', include('tpgen.urls')),  # TPGEN 核心 API
+    path('yaml-test-plan/', include('yaml_test_plan.urls')),  # YAML 测试计划验证（独立模块）
 ]

@@ -162,7 +162,6 @@ class SysUserProfile(Schema):
     nickname: str
 
 
-
 # TestPlan
 class TestPlanIn(Schema):
     name: str
@@ -230,6 +229,5 @@ class TpgenSavedPlanUpdate(Schema):
     test_case_count: Optional[int] = Field(None, alias='testCaseCount')
     status: Optional[int] = None
     tags: Optional[str] = None
-
 
 
