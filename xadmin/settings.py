@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.admin',
     "django.contrib.auth",
     "django.contrib.contenttypes",
-    # 'django.contrib.sessions',
+    'django.contrib.sessions',  # 取消注释以支持会话功能
     'django.contrib.messages',
     # 'django.contrib.staticfiles',
     "xadmin_utils",
@@ -98,6 +98,7 @@ WSGI_APPLICATION = "xadmin.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
+        'CONN_HEALTH_CHECKS': True,  
         "NAME": "xadmin",
         "USER": "amd",
         "PASSWORD": "amdyes",
@@ -106,11 +107,13 @@ DATABASES = {
         "OPTIONS": {
             "options": "-c TimeZone=Asia/Shanghai",
         },
+        "ATOMIC_REQUESTS": False,  # 添加 ATOMIC_REQUESTS 配置
     },
 
 
     "tpdb": {
         "ENGINE": "django.db.backends.postgresql",
+        'CONN_HEALTH_CHECKS': True, 
         "NAME": "tpdb",
         "USER": "amd",
         "PASSWORD": "amdyes",
@@ -119,6 +122,7 @@ DATABASES = {
         "OPTIONS": {
             "options": "-c TimeZone=Asia/Shanghai",
         },
+        "ATOMIC_REQUESTS": False,  # 添加 ATOMIC_REQUESTS 配置
     },
 }
 

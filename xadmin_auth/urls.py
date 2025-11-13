@@ -20,6 +20,7 @@ from . import api_common
 from . import api_test_plan
 from . import api_sut_device  # 新增这一行
 from yaml_check import views as yaml_check_views  # 新增
+from yaml_test_plan import api as yaml_test_plan_api  # YAML测试计划验证
 
 
 
@@ -42,6 +43,7 @@ api.add_router('common', api_common.router)
 api.add_router('test/plan', api_test_plan.router)
 api.add_router('sut/device', api_sut_device.router)  # 新增这一行
 api.add_router('yaml', yaml_check_views.router)  # 新增
+api.add_router('yaml-test-plan', yaml_test_plan_api.router)  # YAML测试计划验证
 
 
 

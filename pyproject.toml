@@ -22,3 +22,6 @@ dependencies = [
 
 [tool.basedpyright]
 typeCheckingMode = "off"
+
+[tool.pytest.ini_options]
+python_files = ["tests.py", "test_*.py", "*_test.py"]
