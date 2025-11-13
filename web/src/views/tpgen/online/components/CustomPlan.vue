@@ -62,7 +62,6 @@
           @click="handleGenerate"
           :loading="isGenerating"
           :disabled="isGenerating"
-          @click="handleGenerate"
         >
 
           <template #icon v-if="!isGenerating"><icon-settings /></template>
@@ -163,9 +162,9 @@ import { addSavedPlan } from '@/apis/tpgen'
 // import { generateTestPlan, validateYaml, checkCompatibility } from '../api/testPlanApi'
 // 修改为
 
-import { showNotification } from '../check_yaml'  // 保留 showNotification
+
+
 import { validateYaml } from '@/apis/yamlCheck'  // 新增
-import { addSavedPlan } from '@/apis/tpgen'  // 保存测试计划 API
 
 
 
@@ -174,12 +173,6 @@ import { addSavedPlan } from '@/apis/tpgen'  // 保存测试计划 API
 
 defineOptions({ name: 'CustomPlan' })
 
-const emit = defineEmits<{
-  progressChange: [value: number]
-  generate: [data: any]
-  copy: []
-  download: []
-}>()
 
 // 使用 machines composable
 const { machines, getMachineById, loadMachines } = useMachines()
@@ -444,10 +437,10 @@ const handleGenerate = async () => {
         os: osConfig,
         kernel: kernelConfig,
       },
-      firmware: {
-        gpu_version: formData.firmwareVersion,
-        comparison: formData.versionComparison,
-      },
+      // firmware: {
+      //   gpu_version: formData.firmwareVersion,
+      //   comparison: formData.versionComparison,
+      // },
       test_suites: testSuites,
     }
 
@@ -652,7 +645,7 @@ const handleDownload = async () => {
 }
 
 // 处理保存计划 - 显示保存对话框
-const handleSavePlan = () => {
+const handleSavePlan = async () => {
   console.log('[CustomPlan handleSavePlan] 打开保存对话框')
   
   // 验证是否有生成的 YAML 数据

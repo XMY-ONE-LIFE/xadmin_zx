@@ -47,6 +47,10 @@ INSTALLED_APPS = [
     "xutils",
     "xauth",  # 包含所有模型和逻辑（原 xdb + xauth）
     "xcase",  # 用例管理模块
+    "tpgen",  # TPGEN 核心应用
+
+    "yaml_test_plan",  # YAML 测试计划验证应用
+    "xadmin_tpgen",  # TPGEN 管理后台
 ]
 
 MIDDLEWARE = [

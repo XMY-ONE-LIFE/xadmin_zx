@@ -1,9 +1,4 @@
-﻿"""
-YAML µ╡ïΦ»òΦ«íσêÆΘ¬îΦ»üσÖ¿
 
-σƒ║Σ║Ä TPGen.html Σ╕¡τÜä JavaScript Θ¬îΦ»üΘÇ╗Φ╛æτº╗µñì
-µö»µîüσ«îµò┤τÜäΦ»¡µ│òσÆîσà╝σ«╣µÇºΘ¬îΦ»ü
-"""
 
 import yaml
 from typing import Dict, List, Any, Optional, Tuple
