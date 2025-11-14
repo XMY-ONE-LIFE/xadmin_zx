@@ -33,15 +33,62 @@
           <template #icon><icon-check-circle /></template>
           <div>
             <strong>{{ uploadedFile.name }} Uploaded Successfully!</strong>
-            <p>File has been validated and analyzed automatically. ({{ formatFileSize(uploadedFile.size) }})</p>
+            <p>Size: {{ formatFileSize(uploadedFile.size) }}</p>
           </div>
         </a-alert>
       </div>
 
       <div v-if="validationResults.length > 0" class="validation-results">
         <h3><icon-info-circle /> Uploaded Plan Analysis</h3>
+        
+        <!-- Error Summary (Collapsible) -->
+        <div v-if="errorSummary.length > 0" class="error-summary">
+          <a-collapse
+            :default-active-key="[]"
+            expand-icon-position="right"
+            :bordered="false"
+          >
+            <a-collapse-item key="errors" class="error-collapse-item">
+              <template #header>
+                <div class="error-header">
+                  <icon-close-circle />
+                  <strong>YAML Syntax Error: YAML validation failed ({{ errorSummary.length }} errors detected)</strong>
+                </div>
+              </template>
+              <ul class="error-list">
+                <li v-for="(error, index) in errorSummary" :key="index">
+                  Line {{ error.line }} [ERROR] --- {{ error.message }}
+                </li>
+              </ul>
+            </a-collapse-item>
+          </a-collapse>
+        </div>
+
+        <!-- File Content with Error Highlighting -->
+        <div v-if="fileContent.length > 0" class="file-content-section">
+          <div class="file-content-header">
+            <icon-file />
+            <strong>File Content (errors highlighted in red):</strong>
+          </div>
+          <div class="file-content-box">
+            <div
+              v-for="(line, index) in fileContent"
+              :key="index"
+              class="code-line"
+              :class="{ 
+                'error-line': errorLines.includes(index + 1),
+                'comment-line': line.trim().startsWith('#')
+              }"
+            >
+              <span class="line-number">{{ index + 1 }}</span>
+              <pre class="line-content">{{ line || ' ' }}<span v-if="getErrorMessage(index + 1)" class="error-comment">{{ getErrorMessage(index + 1) }}</span></pre>
+            </div>
+          </div>
+        </div>
+        
         <div
           v-for="(result, index) in validationResults"
+          v-show="result.title || result.message"
           :key="index"
           class="validation-item"
           :class="result.type"
@@ -66,6 +113,14 @@
         >
           <template #icon><icon-search /></template>
           Analyze Test Plan
+        </a-button>
+        <a-button
+          v-if="errorSummary.length > 0"
+          type="outline"
+          @click="handleDownloadYaml"
+        >
+          <template #icon><icon-download /></template>
+          Download YAML
         </a-button>
       </div>
     </a-card>
@@ -103,42 +158,31 @@
         </div>
       </div>
 
-      <!-- 不兼容的机器 (可折叠，默认收起) -->
+      <!-- 不兼容的机器 -->
       <div v-if="analysisResult.incompatibleMachines.length > 0" class="analysis-section">
-        <a-collapse :default-active-key="[]" :bordered="false" expand-icon-position="right" class="warning-collapse">
-          <a-collapse-item key="incompatible">
-            <template #header>
-              <div class="collapse-header-content">
-                <icon-exclamation-circle :size="16" style="color: #ff7d00; margin-right: 8px; flex-shrink: 0;" />
-                <div>
-                  <strong>Incompatible Machines ({{ analysisResult.incompatibleMachines.length }})</strong>
-                  <p style="margin: 0; font-size: 14px; color: #666;">
-                    {{ analysisResult.incompatibleMachines.length }} machine(s) do not match requirements. Click to view details.
-                  </p>
-                </div>
-              </div>
-            </template>
-            <div class="incompatible-content">
-              <p style="color: #666; margin-bottom: 12px">The following machines do not match your test plan requirements:</p>
-              <div class="machine-grid">
-                <div
-                  v-for="item in analysisResult.incompatibleMachines"
-                  :key="item.machine.id"
-                  class="machine-card incompatible"
-                >
-                  <h4>{{ item.machine.name }}</h4>
-                  <p><strong>Motherboard:</strong> {{ item.machine.motherboard }}</p>
-                  <p><strong>GPU:</strong> {{ item.machine.gpu }}</p>
-                  <p><strong>CPU:</strong> {{ item.machine.cpu }}</p>
-                  <a-tag color="red">Incompatible</a-tag>
-                  <ul class="reasons">
-                    <li v-for="(reason, idx) in item.reasons" :key="idx">{{ reason }}</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </a-collapse-item>
-        </a-collapse>
+        <a-alert type="warning">
+          <template #icon><icon-exclamation-circle /></template>
+          <div>
+            <strong>Incompatible Machines ({{ analysisResult.incompatibleMachines.length }})</strong>
+            <p>The following machines do not match your test plan requirements:</p>
+          </div>
+        </a-alert>
+        <div class="machine-grid">
+          <div
+            v-for="item in analysisResult.incompatibleMachines"
+            :key="item.machine.id"
+            class="machine-card incompatible"
+          >
+            <h4>{{ item.machine.name }}</h4>
+            <p><strong>Motherboard:</strong> {{ item.machine.motherboard }}</p>
+            <p><strong>GPU:</strong> {{ item.machine.gpu }}</p>
+            <p><strong>CPU:</strong> {{ item.machine.cpu }}</p>
+            <a-tag color="red">Incompatible</a-tag>
+            <ul class="reasons">
+              <li v-for="(reason, idx) in item.reasons" :key="idx">{{ reason }}</li>
+            </ul>
+          </div>
+        </div>
       </div>
 
       <!-- 缺失配置 -->
@@ -175,8 +219,8 @@
 </template>
 
 <script setup lang="ts">
-import { Message } from '@arco-design/web-vue'
 import type { AnalysisResult, Machine } from '../types'
+import { Message } from '@arco-design/web-vue'
 
 defineOptions({ name: 'UploadPlan' })
 
@@ -193,8 +237,11 @@ const fileInputRef = ref<HTMLInputElement>()
 const isDragOver = ref(false)
 const uploadedFile = ref<File | null>(null)
 const analyzing = ref(false)
-const validationResults = ref<Array<{ type: string, title: string, message?: string, items?: string[] }>>([])
+const validationResults = ref<Array<{ type: string; title: string; message?: string; items?: string[] }>>([])
 const analysisResult = ref<AnalysisResult | null>(null)
+const errorSummary = ref<Array<{ line: number; column: number; message: string }>>([])
+const fileContent = ref<string[]>([])
+const errorLines = ref<number[]>([])
 
 const handleClickUpload = () => {
   fileInputRef.value?.click()
@@ -223,6 +270,9 @@ const handleFile = (file: File) => {
   uploadedFile.value = file
   validationResults.value = []
   analysisResult.value = null
+  errorSummary.value = []
+  fileContent.value = []
+  errorLines.value = []
   Message.success('File uploaded successfully')
 }
 
@@ -241,53 +291,60 @@ const handleAnalyze = async () => {
 
   analyzing.value = true
   try {
-    // ✅ 调用后端 API 进行严格验证
+    // 第一步：调用后端 API 进行严格的 YAML 语法验证
     const formData = new FormData()
     formData.append('file', uploadedFile.value)
-    
+
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token')
     const response = await fetch('/api/system/test/plan/yaml/upload', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token') || ''}`,
+        'Authorization': `Bearer ${token}`,
       },
-      body: formData
+      body: formData,
     })
-    
-    const result = await response.json()
-    
-    // 检查是否有验证错误
-    if (!response.ok || result.code !== 200) {
-      const errorData = result.data || {}
-      const errorMessage = errorData.error_message || result.message || 'Validation failed'
-      const lineNumber = errorData.line_number
+
+    const backendResult = await response.json()
+
+    // 如果后端验证失败，显示详细错误信息
+    if (!response.ok || backendResult.code !== 200) {
+      const errorDetails = backendResult.data?.errors || []
+      const lines = backendResult.data?.lines || []
       
-      // 显示错误
+      // 设置文件内容
+      fileContent.value = lines
+      
+      // 设置错误摘要和错误行
+      errorSummary.value = errorDetails
+      errorLines.value = errorDetails
+        .map((err: any) => err.line)
+        .filter((line: number) => line > 0)
+
+      // 只设置一个标记，让错误摘要区域显示
       validationResults.value = [
         {
           type: 'error',
-          title: 'YAML Syntax Errors Found',
-          message: lineNumber ? `Line ${lineNumber} [ERROR]` : '[ERROR]',
-          items: [errorMessage]
+          title: '', // 空标题，因为错误已在上面的 error-summary 中显示
+          message: '',
         },
       ]
-      
-      Message.error('YAML validation failed. Please check the errors.')
+
       return
     }
-    
-    // 验证通过，读取文件内容进行前端分析
+
+    // 第二步：后端验证通过，继续前端分析
     const text = await uploadedFile.value.text()
     const yamlData = parseYaml(text)
 
-    // 本地分析（用于显示）
-    const localResult = validateYamlConfig(yamlData)
-    analysisResult.value = localResult
+    // 验证和分析
+    const result = validateYamlConfig(yamlData)
+    analysisResult.value = result
 
     validationResults.value = [
       {
         type: 'success',
         title: 'YAML File Parsed Successfully',
-        message: 'File validated by backend. Click below to see detailed analysis',
+        message: 'Click below to see detailed analysis',
       },
     ]
 
@@ -295,7 +352,8 @@ const handleAnalyze = async () => {
     setTimeout(() => {
       document.querySelector('.analysis-output')?.scrollIntoView({ behavior: 'smooth' })
     }, 100)
-  } catch (error: any) {
+  }
+  catch (error: any) {
     validationResults.value = [
       {
         type: 'error',
@@ -303,7 +361,8 @@ const handleAnalyze = async () => {
         message: error.message,
       },
     ]
-  } finally {
+  }
+  finally {
     analyzing.value = false
   }
 }
@@ -323,11 +382,13 @@ function parseYaml(yamlContent: string): any {
     if (trimmed.endsWith(':')) {
       currentSection = trimmed.slice(0, -1).trim()
       result[currentSection] = {}
-    } else if (trimmed.includes(':')) {
-      const [key, value] = trimmed.split(':').map((s) => s.trim())
+    }
+    else if (trimmed.includes(':')) {
+      const [key, value] = trimmed.split(':').map(s => s.trim())
       if (currentSection) {
         result[currentSection][key] = value
-      } else {
+      }
+      else {
         result[key] = value
       }
     }
@@ -359,7 +420,8 @@ function validateYamlConfig(yamlData: any): AnalysisResult {
 
     if (cpuMatch && gpuMatch) {
       result.compatibleMachines.push(machine)
-    } else {
+    }
+    else {
       result.incompatibleMachines.push({
         machine,
         reasons: [
@@ -393,6 +455,36 @@ const getResultIcon = (type: string) => {
     error: 'icon-close-circle',
   }
   return icons[type] || 'icon-info-circle'
+}
+
+const getErrorMessage = (lineNum: number): string => {
+  // 查找该行的错误信息
+  const error = errorSummary.value.find(err => err.line === lineNum)
+  if (error) {
+    return `    # ${error.message}`
+  }
+  return ''
+}
+
+const handleDownloadYaml = () => {
+  if (!uploadedFile.value || fileContent.value.length === 0)
+    return
+
+  // 从 fileContent 重新组合完整内容
+  const content = fileContent.value.join('\n')
+  
+  // 创建 Blob 并下载
+  const blob = new Blob([content], { type: 'text/yaml;charset=utf-8' })
+  const url = URL.createObjectURL(blob)
+  const link = document.createElement('a')
+  link.href = url
+  link.download = uploadedFile.value.name
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+  URL.revokeObjectURL(url)
+  
+  Message.success(`Downloaded: ${uploadedFile.value.name}`)
 }
 </script>
 
@@ -470,6 +562,149 @@ const getResultIcon = (type: string) => {
       color: #2c3e50;
     }
 
+    .error-summary {
+      margin-bottom: 20px;
+
+      :deep(.arco-collapse) {
+        background: transparent;
+        border: none;
+      }
+
+      :deep(.error-collapse-item) {
+        background: rgba(231, 76, 60, 0.1);
+        border-left: 4px solid #e74c3c;
+        border-radius: 8px;
+        margin-bottom: 0;
+
+        .arco-collapse-item-header {
+          padding: 15px 20px;
+          background: transparent;
+          border: none;
+
+          .error-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #e74c3c;
+
+            .arco-icon {
+              font-size: 1.5rem;
+            }
+
+            strong {
+              color: #2c3e50;
+            }
+          }
+        }
+
+        .arco-collapse-item-content {
+          padding: 0 20px 15px 20px;
+          border: none;
+        }
+      }
+
+      .error-list {
+        margin: 0;
+        padding: 0 0 0 20px;
+        list-style: none;
+
+        li {
+          margin: 8px 0;
+          padding-left: 0;
+          font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+          font-size: 0.95rem;
+          line-height: 1.6;
+          color: #555;
+        }
+      }
+    }
+
+    .file-content-section {
+      margin: 20px 0;
+      border: 2px solid #e1e5eb;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #2d2d2d;
+
+      .file-content-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 15px;
+        background: #1e1e1e;
+        color: #fff;
+        border-bottom: 1px solid #3d3d3d;
+      }
+
+      .file-content-box {
+        max-height: 400px;
+        overflow-y: auto;
+        font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+        font-size: 13px;
+        line-height: 1.5;
+
+        .code-line {
+          display: flex;
+          align-items: stretch;
+          min-height: 20px;
+          transition: background-color 0.2s;
+
+          &:hover {
+            background: #3d3d3d;
+          }
+
+          &.comment-line {
+            .line-content {
+              color: #6a9955;
+              font-style: italic;
+            }
+          }
+
+          &.error-line {
+            background: rgba(231, 76, 60, 0.2);
+            border-left: 4px solid #e74c3c;
+
+            .line-number {
+              background: #e74c3c;
+              color: #fff;
+              font-weight: bold;
+            }
+
+            .line-content {
+              color: #ff6b6b;
+            }
+          }
+
+          .line-number {
+            display: inline-block;
+            width: 50px;
+            text-align: right;
+            padding: 0 10px;
+            background: #252525;
+            color: #858585;
+            user-select: none;
+            flex-shrink: 0;
+          }
+
+          .line-content {
+            flex: 1;
+            padding: 0 10px;
+            color: #d4d4d4;
+            white-space: pre;
+            margin: 0;
+
+            .error-comment {
+              color: #ff6b6b;
+              font-style: italic;
+              font-family: inherit;
+              font-size: inherit;
+              opacity: 0.95;
+            }
+          }
+        }
+      }
+    }
+
     .validation-item {
       padding: 15px;
       border-radius: 8px;
@@ -532,6 +767,9 @@ const getResultIcon = (type: string) => {
 
   .actions {
     margin-top: 20px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
   }
 
   .analysis-output {
@@ -629,78 +867,6 @@ const getResultIcon = (type: string) => {
       }
     }
   }
-
-  // 警告样式的折叠面板
-  .warning-collapse {
-    background: rgba(255, 125, 0, 0.08);
-    border: 1px solid rgba(255, 125, 0, 0.3);
-    border-radius: 8px;
-    overflow: hidden;
-
-    :deep(.arco-collapse-item) {
-      border: none;
-      background: transparent;
-
-      &:last-child {
-        border-bottom: none;
-      }
-    }
-
-    :deep(.arco-collapse-item-header) {
-      padding: 12px 16px;
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      transition: background 0.3s ease;
-
-      &:hover {
-        background: rgba(255, 125, 0, 0.05);
-      }
-
-      .arco-collapse-item-header-left {
-        display: flex;
-        align-items: flex-start;
-        flex: 1;
-      }
-
-      .arco-collapse-item-header-right {
-        color: #ff7d00;
-        font-size: 18px;
-        display: flex;
-        align-items: center;
-      }
-    }
-
-    :deep(.arco-collapse-item-content) {
-      padding: 0 16px 12px 16px;
-      background: transparent;
-      border-top: 1px solid rgba(255, 125, 0, 0.15);
-    }
-
-    .collapse-header-content {
-      display: flex;
-      align-items: flex-start;
-      width: 100%;
-      gap: 8px;
-
-      strong {
-        display: block;
-        color: #2c3e50;
-        font-size: 16px;
-        margin-bottom: 4px;
-      }
-
-      p {
-        margin: 0;
-        font-size: 14px;
-        color: #666;
-        font-weight: normal;
-      }
-    }
-
-    .incompatible-content {
-      margin-top: 12px;
-    }
-  }
 }
 </style>
+

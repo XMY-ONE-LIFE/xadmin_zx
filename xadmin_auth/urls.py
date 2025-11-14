@@ -18,10 +18,10 @@ from . import api_dict_item
 from . import api_option
 from . import api_common
 from . import api_test_plan
-from . import api_test_plan_yaml  # YAML 测试计划上传和验证
 from . import api_sut_device
 from yaml_check import views as yaml_check_views
 from yaml_test_plan import api as yaml_test_plan_api  # YAML 测试计划验证模块
+from yaml_test_plan import api_upload  # YAML 测试计划上传和分析
 
 api = NinjaExtraAPI(auth=auth.TitwBaseAuth(),
                     title='xadmin',
@@ -39,7 +39,7 @@ api.add_router('common', api_common.router)
 
 # Test Plan APIs
 api.add_router('test/plan', api_test_plan.router)
-api.add_router('test/plan/yaml', api_test_plan_yaml.router)  # YAML 上传和分析
+api.add_router('test/plan/yaml', api_upload.router)  # YAML 上传和分析
 api.add_router('sut/device', api_sut_device.router)
 api.add_router('yaml', yaml_check_views.router)
 api.add_router('yaml-test-plan', yaml_test_plan_api.router)  # YAML 验证模块
