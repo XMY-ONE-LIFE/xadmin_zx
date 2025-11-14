@@ -4,17 +4,18 @@ from django.urls import path
 from django.conf import urls as default_urls
 from ninja_extra import NinjaExtraAPI
 from ninja_jwt.exceptions import AuthenticationFailed
-from xadmin_auth import auth
-from xadmin_utils.utils import RespFailedTempl
+from xauth import auth
+from xutils.utils import RespFailedTempl
 from loguru import logger
 from . import api_saved_plan
 
 
-api = NinjaExtraAPI(auth=auth.TitwBaseAuth(), 
-                    title='xadmin-tpgen', 
-                    urls_namespace='xadmin-tpgen')
+api = NinjaExtraAPI(auth=auth.XadminBaseAuth(), 
+                    title='xadmin_tpgen', 
+                    urls_namespace='xadmin_tpgen')
 
-api.add_router('saved-plan', api_saved_plan.router)
+# 添加保存的计划管理路由
+api.add_router('saved-plans', api_saved_plan.router)
 
 @api.exception_handler(AuthenticationFailed)
 def handl_auth_fail(request, exception):

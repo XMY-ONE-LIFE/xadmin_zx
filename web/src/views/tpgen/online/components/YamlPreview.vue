@@ -8,24 +8,38 @@
     </template>
 
     <div class="yaml-content">
-      <div class="yaml-display">
-        <div class="yaml-line-numbers" ref="lineNumbersRef" @scroll="syncScroll">
+
+      <div class="yaml-display" :style="{ maxHeight: `${dynamicHeight}px` }">
+        <div 
+          class="yaml-line-numbers" 
+          ref="lineNumbersRef" 
+          @scroll="syncScroll"
+          :style="{ maxHeight: `${dynamicHeight}px` }"
+        >
+
           <div
             v-for="(line, index) in yamlLines"
             :key="index"
             class="line-number"
-            :class="{ 'error': isErrorLine(index + 1) }"
+            :class="{ error: isErrorLine(index + 1) }"
           >
             {{ index + 1 }}
           </div>
         </div>
-        <div class="yaml-code-content" ref="yamlContentRef" @scroll="handleYamlScroll">
+
+        <div 
+          class="yaml-code-content" 
+          ref="yamlContentRef" 
+          @scroll="handleYamlScroll"
+          :style="{ maxHeight: `${dynamicHeight}px` }"
+        >
+
           <div
             v-for="(line, index) in yamlLines"
             :key="index"
+            :ref="isErrorLine(index + 1) ? 'errorLineRef' : undefined"
             class="code-line"
             :class="{ 'error-line': isErrorLine(index + 1) }"
-            :ref="isErrorLine(index + 1) ? 'errorLineRef' : undefined"
           >
             {{ line }}
           </div>
@@ -34,21 +48,41 @@
     </div>
 
     <div class="actions">
-      <a-button @click="handleCopy">
+
+      <a-button  type="primary" @click="handleCopy">
         <template #icon><icon-copy /></template>
         Copy to Clipboard
       </a-button>
+
+
+
+      <a-space>
+
+      <a-button type="primary" @click="handleSave">
+        <template #icon><icon-save /></template>
+        Save Plan
+      </a-button>
+
+
+
+
       <a-button type="primary" @click="handleDownload">
         <template #icon><icon-download /></template>
         Download YAML
       </a-button>
+    </a-space>
+
+
+
     </div>
   </a-card>
 </template>
 
 <script setup lang="ts">
-import type { YamlData } from '../types'
+
 import { Message } from '@arco-design/web-vue'
+
+import type { YamlData } from '../types'
 
 defineOptions({ name: 'YamlPreview' })
 
@@ -57,16 +91,17 @@ const props = defineProps<{
   errorLines?: number[]
 }>()
 
-// 监听 props 变化
-watch(() => props.errorLines, (newVal) => {
-  console.log('[YamlPreview props] errorLines prop 收到:', newVal)
-}, { immediate: true })
-
 const emit = defineEmits<{
   close: []
   copy: []
   download: []
+  save: []
 }>()
+
+// 监听 props 变化
+watch(() => props.errorLines, (newVal) => {
+  console.log('[YamlPreview props] errorLines prop 收到:', newVal)
+}, { immediate: true })
 
 // Refs for line numbers and content
 const lineNumbersRef = ref<HTMLElement | null>(null)
@@ -88,6 +123,29 @@ const yamlLines = computed(() => {
   console.log('[YamlPreview yamlLines] 前 10 行:', lines.slice(0, 10))
   return lines
 })
+
+// 动态计算预览区高度
+const dynamicHeight = computed(() => {
+  const lineCount = yamlLines.value.length
+  const lineHeight = 25.6 // 每行高度（px）
+  const padding = 50 // 上下内边距总和（px）
+  const minHeight = 200 // 最小高度
+  const maxHeight = 800 // 最大高度
+  
+  // 计算内容高度
+  const contentHeight = lineCount * lineHeight + padding
+  
+  // 限制在最小和最大高度之间
+  if (contentHeight < minHeight) return minHeight
+  if (contentHeight > maxHeight) return maxHeight
+  return contentHeight
+})
+
+// 保存按钮 - 触发父组件的保存逻辑
+function handleSave() {
+  console.log('[YamlPreview handleSave] 触发保存事件')
+  emit('save')
+}
 
 // 检查指定行是否是错误行
 const isErrorLine = (lineNumber: number): boolean => {
@@ -113,21 +171,17 @@ function jsToYaml(obj: any, indent = 0): string {
           lines.forEach((line, i) => {
             if (i === 0) {
               yaml += ` ${line.trim()}\n`
-            }
-            else {
+            } else {
               yaml += `${spaces}    ${line.trim()}\n`
             }
           })
-        }
-        else {
+        } else {
           yaml += `${spaces}  - ${item}\n`
         }
       })
-    }
-    else if (typeof value === 'object' && value !== null) {
+    } else if (typeof value === 'object' && value !== null) {
       yaml += `${spaces}${key}:\n${jsToYaml(value, indent + 1)}`
-    }
-    else {
+    } else {
       yaml += `${spaces}${key}: ${value}\n`
     }
   }
@@ -163,22 +217,22 @@ const syncScroll = () => {
 const scrollToErrorLine = () => {
   console.log('[YamlPreview scrollToErrorLine] 开始滚动到错误行')
   console.log('[YamlPreview scrollToErrorLine] props.errorLines:', props.errorLines)
-  
+
   if (!props.errorLines || props.errorLines.length === 0) {
     console.log('[YamlPreview scrollToErrorLine] ⚠️ 没有错误行，跳过滚动')
     return
   }
-  
+
   nextTick(() => {
     console.log('[YamlPreview scrollToErrorLine] nextTick 执行')
     const errorLine = errorLineRef.value
     console.log('[YamlPreview scrollToErrorLine] errorLineRef.value:', errorLine)
-    
+
     if (errorLine && yamlContentRef.value) {
       // 如果 errorLineRef 是数组（多个错误行），取第一个
       const target = Array.isArray(errorLine) ? errorLine[0] : errorLine
       console.log('[YamlPreview scrollToErrorLine] 滚动目标元素:', target)
-      
+
       if (target) {
         console.log('[YamlPreview scrollToErrorLine] ✅ 执行滚动')
         target.scrollIntoView({ behavior: 'smooth', block: 'center' })
@@ -196,7 +250,7 @@ watch(() => props.errorLines, (newErrorLines, oldErrorLines) => {
   console.log('[YamlPreview watch] errorLines 变化')
   console.log('[YamlPreview watch] 旧值:', oldErrorLines)
   console.log('[YamlPreview watch] 新值:', newErrorLines)
-  
+
   if (newErrorLines && newErrorLines.length > 0) {
     console.log('[YamlPreview watch] ✅ 检测到错误行:', newErrorLines)
     scrollToErrorLine()
@@ -243,8 +297,8 @@ watch(() => props.errorLines, (newErrorLines, oldErrorLines) => {
 
   .yaml-display {
     display: flex;
-    max-height: 500px;
     height: auto;
+    transition: max-height 0.3s ease; // 平滑过渡效果
   }
 
   .yaml-line-numbers {
@@ -252,7 +306,7 @@ watch(() => props.errorLines, (newErrorLines, oldErrorLines) => {
     color: #718096;
     padding-top: 25px;
     padding-bottom: 25px;
-    padding-left: 20px;
+    padding-left: 10px;
     padding-right: 15px;
     text-align: right;
     user-select: none;
@@ -261,8 +315,8 @@ watch(() => props.errorLines, (newErrorLines, oldErrorLines) => {
     overflow-x: hidden;
     flex-shrink: 0;
     min-width: 60px;
-    max-height: 500px;
     position: relative;
+    transition: max-height 0.3s ease; // 平滑过渡效果
 
     .line-number {
       font-family: 'Fira Code', 'Courier New', monospace;
@@ -294,7 +348,7 @@ watch(() => props.errorLines, (newErrorLines, oldErrorLines) => {
     padding-right: 25px;
     overflow-y: auto;
     overflow-x: auto;
-    max-height: 500px;
+    transition: max-height 0.3s ease; // 平滑过渡效果
 
     .code-line {
       font-family: 'Fira Code', 'Courier New', monospace;
@@ -306,13 +360,18 @@ watch(() => props.errorLines, (newErrorLines, oldErrorLines) => {
       margin: 0;
       transition: all 0.3s ease;
 
-      &.error-line {
-        background-color: rgba(255, 77, 79, 0.15);
-        border-left: 4px solid #ff4d4f;
-        padding-left: 10px;
-        animation: pulse-error 1.5s ease-in-out infinite;
-        box-shadow: 0 0 10px rgba(255, 77, 79, 0.3);
-      }
+      // &.error-line {
+      //   background-color: rgba(255, 77, 79, 0.15);
+      //   border-left: 4px solid #ff4d4f;
+      //   padding-left: 10px;
+      //   animation: pulse-error 1.5s ease-in-out infinite;
+      //   box-shadow: 0 0 10px rgba(255, 77, 79, 0.3);
+      // }
+    }
+    &.error-line {
+      background-color: rgba(255, 77, 79, 0.15);
+      box-shadow: inset 4px 0 0 0 #ff4d4f;  // 内阴影模拟左边框
+      // 不需要 padding-left 和 border-left
     }
   }
 
@@ -352,7 +411,7 @@ watch(() => props.errorLines, (newErrorLines, oldErrorLines) => {
 .actions {
   display: flex;
   gap: 15px;
-  justify-content: flex-end;
+  justify-content: space-between;;
 
   @media (max-width: 768px) {
     flex-direction: column;
@@ -363,4 +422,3 @@ watch(() => props.errorLines, (newErrorLines, oldErrorLines) => {
   }
 }
 </style>
-

@@ -28,7 +28,10 @@
 </template>
 
 <script setup lang="ts">
-import { firmwareVersionOptions } from '../mockData'
+import { ref } from 'vue'
+
+// Firmware Version Options - 从数据库获取（暂时为空数组）
+const firmwareVersionOptions = ref<any[]>([])
 
 defineOptions({ name: 'FirmwareConfig' })
 
@@ -45,12 +48,12 @@ const emit = defineEmits<{
 
 const localFirmwareVersion = computed({
   get: () => props.firmwareVersion,
-  set: val => emit('update:firmwareVersion', val),
+  set: (val) => emit('update:firmwareVersion', val),
 })
 
 const localVersionComparison = computed({
   get: () => props.versionComparison,
-  set: val => emit('update:versionComparison', val),
+  set: (val) => emit('update:versionComparison', val),
 })
 
 const handleUpdate = () => {
@@ -89,4 +92,3 @@ const handleUpdate = () => {
   }
 }
 </style>
-

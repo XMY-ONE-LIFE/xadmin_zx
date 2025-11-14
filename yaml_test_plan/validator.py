@@ -1,0 +1,527 @@
+
+
+import yaml
+from typing import Dict, List, Any, Optional, Tuple
+
+
+# ============================================================================
+# Θ¬îΦ»üΦºäσêÖΘàìτ╜«
+# ============================================================================
+
+# E001: σ┐àΘ£ÇτÜäµá╣Θö«∩╝êσ┐àΘí╗σ¡ÿσ£¿τÜäσ¡ùµ«╡∩╝ë
+REQUIRED_ROOT_KEYS = [
+    # Metadata Section (must)
+    'metadata',
+    'metadata.generated',
+    'metadata.version',
+    
+    # Hardware Section (must)
+    'hardware',
+    'hardware.cpu',
+    'hardware.gpu',
+    'hardware.machines',
+    
+    # Environment Section (must)
+    'environment',
+    'environment.os',
+    'environment.os.method',
+    'environment.kernel',
+    'environment.kernel.method',
+    
+    # Firmware Section (must)
+    'firmware',
+    'firmware.gpu_version',
+    'firmware.comparison',
+    
+    # Test Suites (must)
+    'test_suites'
+]
+
+# E002: σ┐àΘí╗Θ¥₧τ⌐║τÜäΘö«
+MANDATORY_NON_EMPTY_KEYS = [
+    'metadata.generated',
+    'metadata.version',
+    'hardware.cpu',
+    'hardware.gpu',
+    'hardware.machines',
+    'environment.os.method',
+    'environment.kernel.method',
+    'firmware.gpu_version',
+    'firmware.comparison',
+    'test_suites'
+]
+
+# E101: σÇ╝τ▒╗σ₧ïΘàìτ╜«
+VALUE_TYPE_CONFIG = {
+    'metadata.generated': 'string',
+    'metadata.version': 'string',
+    'hardware.cpu': 'string',
+    'hardware.gpu': 'string',
+    'hardware.machines': 'array',
+    'environment.os.method': 'string',
+    'environment.os.os': 'string',
+    'environment.os.deployment': 'string',
+    'environment.os.machines': 'object',
+    'environment.kernel.method': 'string',
+    'environment.kernel.type': 'string',
+    'environment.kernel.version': 'string',
+    'environment.kernel.machines': 'object',
+    'firmware.gpu_version': 'string',
+    'firmware.comparison': 'boolean',
+    'test_suites': 'array'
+}
+
+# E102: σÇ╝Φîâσ¢┤Θàìτ╜«∩╝êτÖ╜σÉìσìò∩╝ë
+VALUE_RANGE_CONFIG = {
+    'hardware.cpu': [
+        'Ryzen Threadripper',
+        'Ryzen 9',
+        'Ryzen 7',
+        'EPYC'
+    ],
+    'hardware.gpu': [
+        'Radeon RX 7900 Series',
+        'Radeon RX 6800 Series',
+        'Radeon Pro W7800',
+        'Radeon Pro W6800'
+    ],
+    'environment.os.method': ['same', 'individual'],
+    'environment.os.os': [
+        'Ubuntu 22.04',
+        'Ubuntu 20.04',
+        'RHEL 8',
+        'RHEL 7',
+        'Debian 11',
+        'CentOS 8',
+        'CentOS 7'
+    ],
+    'environment.os.deployment': [
+        'Bare Metal',
+        'Container',
+        'VM'
+    ],
+    'environment.kernel.method': ['same', 'individual'],
+    'environment.kernel.type': [
+        'DKMS',
+        'Mainline',
+        'Custom Build',
+        'LTS'
+    ],
+    'environment.kernel.version': [
+        '6.2',
+        '6.1',
+        '6.0',
+        '5.15',
+        '5.10'
+    ],
+    'firmware.gpu_version': [
+        '2024.01',
+        '2023.12',
+        '2023.07',
+        '2023.01',
+        '2022.12'
+    ]
+}
+
+# E300: µùáµòêτ╗äσÉêΘàìτ╜«
+INVALID_COMBO_CONFIG = [
+    {
+        'name': 'RHEL 7 with LTS Kernel 6.1',
+        'when': {
+            'environment.os.os': 'RHEL 7',
+            'environment.kernel.type': 'LTS',
+            'environment.kernel.version': '6.1'
+        },
+        'action': 'report_error'
+    },
+    {
+        'name': 'RHEL 7 with Mainline Kernel 6.0+',
+        'when': {
+            'environment.os.os': 'RHEL 7',
+            'environment.kernel.type': 'Mainline',
+            'environment.kernel.version': ['6.0', '6.1', '6.2']
+        },
+        'action': 'report_error'
+    }
+]
+
+# σ¡ùµ«╡σÅïσÑ╜σÉìτº░µÿáσ░ä
+FIELD_NAMES = {
+    # Metadata
+    'metadata': 'Metadata',
+    'metadata.generated': 'Generated Time',
+    'metadata.version': 'Version',
+    
+    # Hardware
+    'hardware': 'Hardware',
+    'hardware.cpu': 'CPU',
+    'hardware.gpu': 'GPU',
+    'hardware.machines': 'Machines',
+    
+    # Environment - OS
+    'environment': 'Environment',
+    'environment.os': 'Operating System',
+    'environment.os.method': 'OS Configuration Method',
+    'environment.os.os': 'Operating System',
+    'environment.os.deployment': 'Deployment Method',
+    'environment.os.machines': 'OS Machines Configuration',
+    
+    # Environment - Kernel
+    'environment.kernel': 'Kernel',
+    'environment.kernel.method': 'Kernel Configuration Method',
+    'environment.kernel.type': 'Kernel Type',
+    'environment.kernel.version': 'Kernel Version',
+    'environment.kernel.machines': 'Kernel Machines Configuration',
+    
+    # Firmware
+    'firmware': 'Firmware',
+    'firmware.gpu_version': 'GPU Firmware Version',
+    'firmware.comparison': 'Version Comparison Testing',
+    
+    # Test Suites
+    'test_suites': 'Test Suites'
+}
+
+
+# ============================================================================
+# Φ╛àσè⌐σç╜µò░
+# ============================================================================
+
+def get_nested_value(obj: Dict, path: str) -> Any:
+    """
+    Σ╜┐τö¿τé╣σÅ╖Φ╖»σ╛äΦÄ╖σÅûσ╡îσÑùσÇ╝
+    Σ╛ïσªé: get_nested_value(data, 'hardware.cpu')
+    """
+    keys = path.split('.')
+    current = obj
+    for key in keys:
+        if not isinstance(current, dict) or key not in current:
+            return None
+        current = current[key]
+    return current
+
+
+def is_empty(value: Any) -> bool:
+    """µúÇµƒÑσÇ╝µÿ»σÉªΣ╕║τ⌐║"""
+    if value is None:
+        return True
+    if isinstance(value, str) and value.strip() == '':
+        return True
+    if isinstance(value, (list, dict)) and len(value) == 0:
+        return True
+    return False
+
+
+def get_value_type(value: Any) -> str:
+    """ΦÄ╖σÅûσÇ╝τÜäτ▒╗σ₧ïσ¡ùτ¼ªΣ╕▓"""
+    if value is None:
+        return 'null'
+    if isinstance(value, bool):
+        return 'boolean'
+    if isinstance(value, int) or isinstance(value, float):
+        return 'number'
+    if isinstance(value, str):
+        return 'string'
+    if isinstance(value, list):
+        return 'array'
+    if isinstance(value, dict):
+        return 'object'
+    return 'unknown'
+
+
+def get_friendly_field_name(field_path: str) -> str:
+    """ΦÄ╖σÅûσ¡ùµ«╡τÜäσÅïσÑ╜σÉìτº░"""
+    return FIELD_NAMES.get(field_path, field_path)
+
+
+def find_line_number_in_yaml(yaml_content: str, field_path: str) -> Optional[int]:
+    """
+    σ£¿ YAML µûçµ£¼Σ╕¡µƒÑµë╛σ¡ùµ«╡µëÇσ£¿τÜäΦíîσÅ╖
+    """
+    if not yaml_content:
+        return None
+    
+    # µÅÉσÅûµ£ÇσÉÄΣ╕Çτ║ºτÜäΘö«σÉì
+    keys = field_path.split('.')
+    last_key = keys[-1]
+    
+    lines = yaml_content.split('\n')
+    for i, line in enumerate(lines):
+        # σî╣Θàì "key:" µêû "key: value" µ¿íσ╝Å
+        if f'{last_key}:' in line:
+            return i + 1  # Φ┐öσ¢₧ 1-based ΦíîσÅ╖
+    
+    return None
+
+
+# ============================================================================
+# Θ¬îΦ»üσç╜µò░
+# ============================================================================
+
+def validate_yaml_syntax(yaml_content: str) -> Tuple[bool, Optional[str], Optional[int]]:
+    """
+    Θ¬îΦ»ü YAML Φ»¡µ│ò
+    
+    Φ┐öσ¢₧: (is_valid, error_message, line_number)
+    """
+    try:
+        yaml.safe_load(yaml_content)
+        return True, None, None
+    except yaml.YAMLError as e:
+        error_msg = str(e)
+        line_number = None
+        
+        # σ░¥Φ»òµÅÉσÅûΦíîσÅ╖
+        if hasattr(e, 'problem_mark'):
+            line_number = e.problem_mark.line + 1  # PyYAML Σ╜┐τö¿ 0-based ΦíîσÅ╖
+        
+        return False, f"Invalid YAML syntax. Expected key-value pair (key: value) or list item (- item).", line_number
+    except Exception as e:
+        return False, f"YAML parsing error: {str(e)}", None
+
+
+def validate_required_root_keys(yaml_data: Dict) -> Tuple[bool, Optional[str]]:
+    """
+    E001: Θ¬îΦ»üσ┐àΘ£ÇτÜäµá╣Θö«
+    """
+    for key in REQUIRED_ROOT_KEYS:
+        value = get_nested_value(yaml_data, key)
+        if value is None:
+            friendly_name = get_friendly_field_name(key)
+            return False, f"E001 Unsupported: missing mandatory field \"{friendly_name}\" [{key}]"
+    
+    # µ¥íΣ╗╢σ┐àΘ£Çσ¡ùµ«╡
+    os_method = get_nested_value(yaml_data, 'environment.os.method')
+    if os_method == 'same':
+        if get_nested_value(yaml_data, 'environment.os.os') is None:
+            return False, "E001 Unsupported: missing mandatory field \"Operating System\" [environment.os.os] when method is 'same'"
+        if get_nested_value(yaml_data, 'environment.os.deployment') is None:
+            return False, "E001 Unsupported: missing mandatory field \"Deployment Method\" [environment.os.deployment] when method is 'same'"
+    elif os_method == 'individual':
+        if get_nested_value(yaml_data, 'environment.os.machines') is None:
+            return False, "E001 Unsupported: missing mandatory field \"OS Machines Configuration\" [environment.os.machines] when method is 'individual'"
+    
+    kernel_method = get_nested_value(yaml_data, 'environment.kernel.method')
+    if kernel_method == 'same':
+        if get_nested_value(yaml_data, 'environment.kernel.type') is None:
+            return False, "E001 Unsupported: missing mandatory field \"Kernel Type\" [environment.kernel.type] when method is 'same'"
+        if get_nested_value(yaml_data, 'environment.kernel.version') is None:
+            return False, "E001 Unsupported: missing mandatory field \"Kernel Version\" [environment.kernel.version] when method is 'same'"
+    elif kernel_method == 'individual':
+        if get_nested_value(yaml_data, 'environment.kernel.machines') is None:
+            return False, "E001 Unsupported: missing mandatory field \"Kernel Machines Configuration\" [environment.kernel.machines] when method is 'individual'"
+    
+    return True, None
+
+
+def validate_mandatory_non_empty_keys(yaml_data: Dict) -> Tuple[bool, Optional[str]]:
+    """
+    E002: Θ¬îΦ»üσ┐àΘ£ÇΘ¥₧τ⌐║τÜäΘö«
+    """
+    for key in MANDATORY_NON_EMPTY_KEYS:
+        value = get_nested_value(yaml_data, key)
+        friendly_name = get_friendly_field_name(key)
+        
+        if value is None:
+            return False, f"E002 Unsupported: empty value for \"{friendly_name}\" [{key}]"
+        
+        if is_empty(value):
+            return False, f"E002 Unsupported: empty value for \"{friendly_name}\" [{key}]"
+    
+    return True, None
+
+
+def validate_value_types(yaml_data: Dict) -> Tuple[bool, Optional[str]]:
+    """
+    E101: Θ¬îΦ»üσÇ╝τ▒╗σ₧ï
+    """
+    for key, expected_type in VALUE_TYPE_CONFIG.items():
+        value = get_nested_value(yaml_data, key)
+        
+        if value is None:
+            continue
+        
+        actual_type = get_value_type(value)
+        
+        # τ▒╗σ₧ïµÿáσ░ä
+        type_map = {
+            'string': ['string'],
+            'int': ['number'],
+            'number': ['number'],
+            'boolean': ['boolean'],
+            'array': ['array'],
+            'object': ['object']
+        }
+        
+        valid_types = type_map.get(expected_type, [expected_type])
+        
+        if actual_type not in valid_types:
+            friendly_name = get_friendly_field_name(key)
+            return False, f"E101 Unsupported: value type error for \"{friendly_name}\" [{key}]. Expected {expected_type}, got {actual_type}"
+    
+    return True, None
+
+
+def validate_value_ranges(yaml_data: Dict) -> Tuple[bool, Optional[str]]:
+    """
+    E102: Θ¬îΦ»üσÇ╝Φîâσ¢┤∩╝êτÖ╜σÉìσìò∩╝ë
+    """
+    for key, allowed_values in VALUE_RANGE_CONFIG.items():
+        value = get_nested_value(yaml_data, key)
+        
+        if value is None:
+            continue
+        
+        if value not in allowed_values:
+            friendly_name = get_friendly_field_name(key)
+            return False, f"E102 Unsupported: invalid value \"{value}\" for \"{friendly_name}\" [{key}]. Must be one of: {', '.join(map(str, allowed_values))}"
+    
+    return True, None
+
+
+def validate_invalid_combinations(yaml_data: Dict) -> Tuple[bool, Optional[str]]:
+    """
+    E300: Θ¬îΦ»üµùáµòêτ╗äσÉê
+    """
+    for combo in INVALID_COMBO_CONFIG:
+        all_conditions_met = True
+        matched_conditions = []
+        
+        for key_path, expected_value in combo['when'].items():
+            actual_value = get_nested_value(yaml_data, key_path)
+            
+            # σªéµ₧£µ£ƒµ£¢σÇ╝µÿ»σêùΦí¿∩╝îµúÇµƒÑσ«₧ΘÖàσÇ╝µÿ»σÉªσ£¿σêùΦí¿Σ╕¡
+            if isinstance(expected_value, list):
+                if actual_value not in expected_value:
+                    all_conditions_met = False
+                    break
+                matched_conditions.append(f"[{key_path}]=\"{actual_value}\"")
+            else:
+                # Σ╜┐τö¿σ¡ùτ¼ªΣ╕▓µ»öΦ╛âΣ╗ÑσñäτÉåτ▒╗σ₧ïΣ╕ìσî╣Θàì
+                if str(actual_value) != str(expected_value):
+                    all_conditions_met = False
+                    break
+                matched_conditions.append(f"[{key_path}]=\"{actual_value}\"")
+        
+        if all_conditions_met and combo['action'] == 'report_error':
+            return False, f"E300 Unsupported: invalid combination detected {' with '.join(matched_conditions)}"
+    
+    return True, None
+
+
+# ============================================================================
+# Σ╕╗Θ¬îΦ»üσç╜µò░
+# ============================================================================
+
+def validate_yaml_full(yaml_content: str) -> Dict[str, Any]:
+    """
+    σ«îµò┤τÜä YAML Θ¬îΦ»ü∩╝êσîàµï¼Φ»¡µ│òσÆîσà╝σ«╣µÇº∩╝ë
+    
+    Φ┐öσ¢₧µá╝σ╝Å:
+    {
+        'valid': bool,
+        'error_code': str,  # '0' Φí¿τñ║µêÉσèƒ, 'E001', 'E002', 'E101', 'E102', 'E300' Φí¿τñ║ΘöÖΦ»»τ▒╗σ₧ï
+        'error_message': str,
+        'line_number': int  # ΘöÖΦ»»µëÇσ£¿ΦíîσÅ╖∩╝êσªéµ₧£σÅ»τö¿∩╝ë
+    }
+    """
+    # µ¡ÑΘ¬ñ 1: Φ»¡µ│òΘ¬îΦ»ü
+    syntax_valid, syntax_error, line_number = validate_yaml_syntax(yaml_content)
+    if not syntax_valid:
+        return {
+            'valid': False,
+            'error_code': 'SYNTAX_ERROR',
+            'error_message': syntax_error,
+            'line_number': line_number
+        }
+    
+    # Φºúµ₧É YAML
+    try:
+        yaml_data = yaml.safe_load(yaml_content)
+    except Exception as e:
+        return {
+            'valid': False,
+            'error_code': 'PARSE_ERROR',
+            'error_message': f"Failed to parse YAML: {str(e)}",
+            'line_number': None
+        }
+    
+    # µ¡ÑΘ¬ñ 2: σ┐àΘ£ÇΘö«Θ¬îΦ»ü (E001)
+    valid, error_msg = validate_required_root_keys(yaml_data)
+    if not valid:
+        # µÅÉσÅûΘöÖΦ»»Σ╗úτáü
+        error_code = error_msg.split()[0] if error_msg else 'E001'
+        # µƒÑµë╛ΦíîσÅ╖
+        field_match = error_msg.split('[')[-1].split(']')[0] if '[' in error_msg else None
+        line_num = find_line_number_in_yaml(yaml_content, field_match) if field_match else None
+        
+        return {
+            'valid': False,
+            'error_code': error_code,
+            'error_message': error_msg,
+            'line_number': line_num
+        }
+    
+    # µ¡ÑΘ¬ñ 3: Θ¥₧τ⌐║Θö«Θ¬îΦ»ü (E002)
+    valid, error_msg = validate_mandatory_non_empty_keys(yaml_data)
+    if not valid:
+        error_code = error_msg.split()[0] if error_msg else 'E002'
+        field_match = error_msg.split('[')[-1].split(']')[0] if '[' in error_msg else None
+        line_num = find_line_number_in_yaml(yaml_content, field_match) if field_match else None
+        
+        return {
+            'valid': False,
+            'error_code': error_code,
+            'error_message': error_msg,
+            'line_number': line_num
+        }
+    
+    # µ¡ÑΘ¬ñ 4: σÇ╝τ▒╗σ₧ïΘ¬îΦ»ü (E101)
+    valid, error_msg = validate_value_types(yaml_data)
+    if not valid:
+        error_code = error_msg.split()[0] if error_msg else 'E101'
+        field_match = error_msg.split('[')[-1].split(']')[0] if '[' in error_msg else None
+        line_num = find_line_number_in_yaml(yaml_content, field_match) if field_match else None
+        
+        return {
+            'valid': False,
+            'error_code': error_code,
+            'error_message': error_msg,
+            'line_number': line_num
+        }
+    
+    # µ¡ÑΘ¬ñ 5: σÇ╝Φîâσ¢┤Θ¬îΦ»ü (E102)
+    valid, error_msg = validate_value_ranges(yaml_data)
+    if not valid:
+        error_code = error_msg.split()[0] if error_msg else 'E102'
+        field_match = error_msg.split('[')[-1].split(']')[0] if '[' in error_msg else None
+        line_num = find_line_number_in_yaml(yaml_content, field_match) if field_match else None
+        
+        return {
+            'valid': False,
+            'error_code': error_code,
+            'error_message': error_msg,
+            'line_number': line_num
+        }
+    
+    # µ¡ÑΘ¬ñ 6: µùáµòêτ╗äσÉêΘ¬îΦ»ü (E300)
+    valid, error_msg = validate_invalid_combinations(yaml_data)
+    if not valid:
+        error_code = error_msg.split()[0] if error_msg else 'E300'
+        # σ»╣Σ║Äτ╗äσÉêΘöÖΦ»»∩╝îσÅ»Φâ╜µ▓íµ£ëµÿÄτí«τÜäΦíîσÅ╖
+        
+        return {
+            'valid': False,
+            'error_code': error_code,
+            'error_message': error_msg,
+            'line_number': None
+        }
+    
+    # µëÇµ£ëΘ¬îΦ»üΘÇÜΦ┐ç
+    return {
+        'valid': True,
+        'error_code': '0',
+        'error_message': 'OK',
+        'line_number': None
+    }
+

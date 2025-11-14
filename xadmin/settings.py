@@ -38,24 +38,19 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 INSTALLED_APPS = [
     "corsheaders",
-    # 'django.contrib.admin',
+    'django.contrib.admin',
     "django.contrib.auth",
     "django.contrib.contenttypes",
-    # 'django.contrib.sessions',
-    # 'django.contrib.messages',
+    'django.contrib.sessions',  # 取消注释以支持会话功能
+    'django.contrib.messages',
     # 'django.contrib.staticfiles',
-    "xadmin_utils",
-    "xadmin_db",
-    "xadmin_auth",
+    "xutils",
+    "xauth",  # 包含所有模型和逻辑（原 xdb + xauth）
+    "xcase",  # 用例管理模块
+    "tpgen",  # TPGEN 核心应用
 
-    "test_plan",
-    "yaml_check",  # 新增
-
-
-    "tpgen",  # Test Plan Generator
-
-    "xadmin_tpgen",
-
+    "yaml_test_plan",  # YAML 测试计划验证应用
+    "xadmin_tpgen",  # TPGEN 管理后台
 ]
 
 MIDDLEWARE = [
@@ -65,7 +60,7 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
-    # 'django.contrib.messages.middleware.MessageMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django_currentuser.middleware.ThreadLocalUserMiddleware",
 ]
@@ -97,6 +92,7 @@ WSGI_APPLICATION = "xadmin.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
+        'CONN_HEALTH_CHECKS': True,  
         "NAME": "xadmin",
         "USER": "amd",
         "PASSWORD": "amdyes",
@@ -105,11 +101,13 @@ DATABASES = {
         "OPTIONS": {
             "options": "-c TimeZone=Asia/Shanghai",
         },
+        "ATOMIC_REQUESTS": False,  # 添加 ATOMIC_REQUESTS 配置
     },
 
 
     "tpdb": {
         "ENGINE": "django.db.backends.postgresql",
+        'CONN_HEALTH_CHECKS': True, 
         "NAME": "tpdb",
         "USER": "amd",
         "PASSWORD": "amdyes",
@@ -118,14 +116,12 @@ DATABASES = {
         "OPTIONS": {
             "options": "-c TimeZone=Asia/Shanghai",
         },
+        "ATOMIC_REQUESTS": False,  # 添加 ATOMIC_REQUESTS 配置
     },
 }
 
-# 数据库路由器 - 将 tpgen 应用路由到 tpdb 数据库
-DATABASE_ROUTERS = ["xadmin.database_router.TpgenDatabaseRouter"]
-
-# 数据库路由配置
-DATABASE_ROUTERS = ['test_plan.router.TpdbRouter']
+# 数据库路由配置 - 统一路由器（将 tpgen、test_plan、xadmin_tpgen 路由到 tpdb）
+DATABASE_ROUTERS = ['xadmin.database_router.UnifiedTpdbRouter']
 
 # Cache
 CACHES = {
@@ -162,7 +158,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL = "xadmin_db.SysUser"
+AUTH_USER_MODEL = "xauth.SysUser"
 
 
 # Internationalization
@@ -188,7 +184,7 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 MEDIA_URL = "/media/"
-MEDIA_ROOT = "/tmp"
+MEDIA_ROOT = BASE_DIR / "media"
 
 # Django Ninja JWT
 NINJA_JWT = {
@@ -209,7 +205,7 @@ REDIS_PORT = 6379
 REDIS_PASSWORD = "dsy_201411"  # 远程 Redis 密码
 REDIS_DB = 0
 
-TITW_SUPER_USER = "admin"
+# TITW_SUPER_USER = "admin"  # 已废弃：现在通过 is_system 字段判断系统用户
 TITW_DATE_FORMAT = "Y-m-d H:i:s"
 
 TITW_DATA_SCOPE = [

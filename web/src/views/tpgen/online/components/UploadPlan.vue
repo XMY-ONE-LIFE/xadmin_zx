@@ -175,8 +175,8 @@
 </template>
 
 <script setup lang="ts">
-import type { AnalysisResult, Machine } from '../types'
 import { Message } from '@arco-design/web-vue'
+import type { AnalysisResult, Machine } from '../types'
 
 defineOptions({ name: 'UploadPlan' })
 
@@ -193,7 +193,7 @@ const fileInputRef = ref<HTMLInputElement>()
 const isDragOver = ref(false)
 const uploadedFile = ref<File | null>(null)
 const analyzing = ref(false)
-const validationResults = ref<Array<{ type: string; title: string; message?: string; items?: string[] }>>([])
+const validationResults = ref<Array<{ type: string, title: string, message?: string, items?: string[] }>>([])
 const analysisResult = ref<AnalysisResult | null>(null)
 
 const handleClickUpload = () => {
@@ -295,8 +295,7 @@ const handleAnalyze = async () => {
     setTimeout(() => {
       document.querySelector('.analysis-output')?.scrollIntoView({ behavior: 'smooth' })
     }, 100)
-  }
-  catch (error: any) {
+  } catch (error: any) {
     validationResults.value = [
       {
         type: 'error',
@@ -304,8 +303,7 @@ const handleAnalyze = async () => {
         message: error.message,
       },
     ]
-  }
-  finally {
+  } finally {
     analyzing.value = false
   }
 }
@@ -325,13 +323,11 @@ function parseYaml(yamlContent: string): any {
     if (trimmed.endsWith(':')) {
       currentSection = trimmed.slice(0, -1).trim()
       result[currentSection] = {}
-    }
-    else if (trimmed.includes(':')) {
-      const [key, value] = trimmed.split(':').map(s => s.trim())
+    } else if (trimmed.includes(':')) {
+      const [key, value] = trimmed.split(':').map((s) => s.trim())
       if (currentSection) {
         result[currentSection][key] = value
-      }
-      else {
+      } else {
         result[key] = value
       }
     }
@@ -363,8 +359,7 @@ function validateYamlConfig(yamlData: any): AnalysisResult {
 
     if (cpuMatch && gpuMatch) {
       result.compatibleMachines.push(machine)
-    }
-    else {
+    } else {
       result.incompatibleMachines.push({
         machine,
         reasons: [
@@ -709,4 +704,3 @@ const getResultIcon = (type: string) => {
   }
 }
 </style>
-
