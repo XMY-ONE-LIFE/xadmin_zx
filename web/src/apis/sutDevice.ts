@@ -14,12 +14,15 @@ export interface OptionItem {
 export interface SutDevice {
   id: number
   hostname: string
-  asic_name?: string
-  ip_address?: string
-  device_id?: string
-  rev_id?: string
-  gpu_series?: string
-  gpu_model?: string
+  asicName?: string
+  productName?: string
+  ipAddress?: string
+  deviceId?: string
+  revId?: string
+  gpuSeries?: string
+  gpuModel?: string
+  createdAt?: string
+  updatedAt?: string
 }
 
 /**
@@ -61,5 +64,33 @@ export async function getGpuModelOptions(): Promise<OptionItem[]> {
  */
 export async function getDevices(params?: DeviceQueryParams): Promise<SutDevice[]> {
   const res = await http.get<SutDevice[]>('/system/sut/device/devices', params)
+  return res.data || []
+}
+
+/**
+ * 获取产品系列名称列表
+ */
+export async function getProductNames(): Promise<OptionItem[]> {
+  const res = await http.get<OptionItem[]>('/tp/api/sut-device/product-names')
+  return res.data || []
+}
+
+/**
+ * 获取 ASIC 名称列表（可选根据 productName 过滤）
+ */
+export async function getAsicNames(productName?: string): Promise<OptionItem[]> {
+  const params = productName ? { productName } : {}
+  const res = await http.get<OptionItem[]>('/tp/api/sut-device/asic-names', params)
+  return res.data || []
+}
+
+/**
+ * 根据 productName 和 asicName 获取机器列表
+ */
+export async function getMachinesBySelection(productName?: string, asicName?: string): Promise<SutDevice[]> {
+  const params: any = {}
+  if (productName) params.productName = productName
+  if (asicName) params.asicName = asicName
+  const res = await http.get<SutDevice[]>('/tp/api/sut-device/machines', params)
   return res.data || []
 }
