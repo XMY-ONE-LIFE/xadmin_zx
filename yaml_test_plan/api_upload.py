@@ -4,7 +4,7 @@ YAML Test Plan Upload and Validation API
 from ninja import Router, File
 from ninja.files import UploadedFile
 from django.http import HttpRequest
-from xadmin_utils.utils import RespSuccessTempl, RespFailedTempl
+from xutils.utils import RespSuccessTempl, RespFailedTempl
 from loguru import logger
 from yaml_test_plan.validator import validate_yaml_full
 
