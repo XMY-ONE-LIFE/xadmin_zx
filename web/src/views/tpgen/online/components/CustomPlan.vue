@@ -231,17 +231,21 @@ const jsToYaml = (obj: any, indent = 0): string => {
       yaml += `${spaces}${key}:\n`
       value.forEach((item) => {
         if (typeof item === 'object' && item !== null) {
+          // Generate YAML for array items with indent + 2 to ensure proper indentation
           const itemYaml = jsToYaml(item, indent + 2)
-          const lines = itemYaml.trim().split('\n')
-          yaml += `${spaces}  -`
-          lines.forEach((line, i) => {
-            if (i === 0) {
-              yaml += ` ${line.trim()}\n`
+          const lines = itemYaml.split('\n').filter(l => l.length > 0)
+          
+          // Add "- " before the first line
+          if (lines.length > 0) {
+            // Remove the original indentation from the first line, as we'll add "- "
+            const firstLine = lines[0].substring((indent + 2) * 2)
+            yaml += `${spaces}  - ${firstLine}\n`
+            
+            // Keep the original indentation for subsequent lines
+            for (let i = 1; i < lines.length; i++) {
+              yaml += `${lines[i]}\n`
             }
-            else {
-              yaml += `${spaces}    ${line.trim()}\n`
-            }
-          })
+          }
         }
         else {
           yaml += `${spaces}  - ${item}\n`
@@ -255,7 +259,7 @@ const jsToYaml = (obj: any, indent = 0): string => {
       yaml += `${spaces}${key}: ${value}\n`
     }
 
-    // 在顶层（indent = 0）的各部分之间添加空行，使 YAML 更易读
+    // Add empty lines between top-level sections (indent = 0) for better readability
     if (indent === 0 && index < entries.length - 1) {
       yaml += '\n'
     }
