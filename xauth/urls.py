@@ -35,9 +35,7 @@ api.add_router('common', api_common.router)
 @api.exception_handler(AuthenticationFailed)
 def handl_auth_fail(request, exception):
     resp = RespFailedTempl()
-    # 安全获取 code 属性，如果不存在则使用 403
     resp.code = getattr(exception, 'code', 403)
-    # 获取错误消息
     resp.data = str(exception) if str(exception) else 'Authentication failed'
     return JsonResponse(resp.as_dict(), status=resp.code)
 
@@ -60,10 +58,11 @@ def create_exception_handler(code: int):
 
 
 urlpatterns = [
-    path('', api.urls, name='system'),
+    path('', api.urls, name='tpgen'),
 ]
 
 default_urls.handler400 = create_exception_handler(HTTPStatus.BAD_REQUEST)
 default_urls.handler403 = create_exception_handler(HTTPStatus.FORBIDDEN)
 default_urls.handler404 = create_exception_handler(HTTPStatus.NOT_FOUND)
 default_urls.handler500 = create_exception_handler(HTTPStatus.INTERNAL_SERVER_ERROR)
+

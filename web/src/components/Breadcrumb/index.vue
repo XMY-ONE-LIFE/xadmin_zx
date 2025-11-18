@@ -68,6 +68,11 @@ function handleLink(item: RouteLocationMatched) {
   }
 }
 
+.breadcrumb-item-wrapper {
+  display: flex;
+  align-items: center;
+}
+
 .breadcrumb-item-title {
   transition: all 0.3s;
   cursor: pointer;

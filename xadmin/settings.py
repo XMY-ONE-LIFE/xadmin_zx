@@ -28,6 +28,7 @@ APPEND_SLASH = False
 SECRET_KEY = "django-insecure-%^auk0o#pe)$w2_bnh%&#4bnzi%tn@946xk7p6wo(z$)ox0db7"
 
 # SECURITY WARNING: don't run with debug turned on in production!
+# DEBUG = True
 DEBUG = False
 
 ALLOWED_HOSTS = ["*"]
@@ -44,9 +45,9 @@ INSTALLED_APPS = [
     # 'django.contrib.sessions',
     # 'django.contrib.messages',
     # 'django.contrib.staticfiles',
-    "xutils",
-    "xauth",  # 包含所有模型和逻辑（原 xdb + xauth）
-    "xcase",  # 用例管理模块
+    "xutils",  # 新的工具模块
+    "xauth",  # 合并了 xadmin_db 和 xadmin_auth
+    "tpgen.apps.TpgenConfig",
 ]
 
 MIDDLEWARE = [
@@ -91,8 +92,10 @@ DATABASES = {
         "NAME": "xadmin",
         "USER": "amd",
         "PASSWORD": "amdyes",
-        "HOST": "127.0.0.1",
-        "PORT": 5432,
+        "HOST": "10.67.167.53",
+        "PORT": 5433,
+        # "HOST": "127.0.0.1",
+        # "PORT": 5432,
         "OPTIONS": {
             "options": "-c TimeZone=Asia/Shanghai",
         },
@@ -103,10 +106,10 @@ DATABASES = {
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/1",
+        "LOCATION": "redis://10.67.167.53:6379/1",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            "PASSWORD": "amdyes",
+            "PASSWORD": "dsy_201411",
             "CONNECTION_POOL_KWARGS": {
                 "max_connections": 100,
                 "retry_on_timeout": True,
@@ -161,7 +164,7 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 MEDIA_URL = "/media/"
-MEDIA_ROOT = BASE_DIR / "media"
+MEDIA_ROOT = "/tmp"
 
 # Django Ninja JWT
 NINJA_JWT = {
@@ -182,7 +185,7 @@ REDIS_PORT = 6379
 REDIS_PASSWORD = "amdyes"
 REDIS_DB = 0
 
-# TITW_SUPER_USER = "admin"  # 已废弃：现在通过 is_system 字段判断系统用户
+TITW_SUPER_USER = "admin"
 TITW_DATE_FORMAT = "Y-m-d H:i:s"
 
 TITW_DATA_SCOPE = [
