@@ -10398,3 +10398,314 @@ newlines	and	tabs
 2025-11-18 10:18:04.574 | INFO     | xadmin.logru_config:emit:23 | "GET - get_user_info /system/auth/user/info" 0.2749030590057373
 2025-11-18 10:18:04.679 | INFO     | xadmin.logru_config:emit:23 | "GET - get_user_route /system/auth/route" 0.00020694732666015625
 2025-11-18 10:18:04.680 | WARNING  | xadmin.logru_config:emit:23 | Unauthorized: /system/auth/route
+2025-11-18 10:23:51.581 | INFO     | xadmin.logru_config:emit:23 | "GET - get_dict_option /system/common/dict/option" 0.12859368324279785
+2025-11-18 10:23:53.436 | INFO     | xauth.api_auth:login:59 | 登录成功 - 用户: admin, Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90e...
+2025-11-18 10:23:53.436 | INFO     | xadmin.logru_config:emit:23 | "POST - login /system/auth/login" 0.24704742431640625
+2025-11-18 10:23:53.447 | INFO     | xauth.auth:authenticate:48 | 认证请求 - Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90e...
+2025-11-18 10:23:53.558 | INFO     | xauth.auth:authenticate:51 | 认证成功 - 用户: admin
+2025-11-18 10:23:53.691 | INFO     | xadmin.logru_config:emit:23 | "GET - get_user_info /system/auth/user/info" 0.24365234375
+2025-11-18 10:23:53.699 | INFO     | xauth.auth:authenticate:48 | 认证请求 - Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90e...
+2025-11-18 10:23:53.808 | INFO     | xauth.auth:authenticate:51 | 认证成功 - 用户: admin
+2025-11-18 10:23:53.827 | INFO     | xadmin.logru_config:emit:23 | "GET - get_user_route /system/auth/route" 0.12816143035888672
+2025-11-18 10:23:58.955 | INFO     | xadmin.logru_config:emit:23 | "GET - get_gpu_series_options /tp/api/sut-device/gpu-series-options" 0.1159214973449707
+2025-11-18 10:23:58.962 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_types /tp/api/test-type/list" 0.11666154861450195
+2025-11-18 10:23:58.972 | INFO     | xadmin.logru_config:emit:23 | "GET - list_sut_devices /tp/api/sut-device/list" 0.12948298454284668
+2025-11-18 10:23:58.978 | INFO     | xadmin.logru_config:emit:23 | "GET - list_sut_devices /tp/api/sut-device/list" 0.12955379486083984
+2025-11-18 10:23:59.087 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_components /tp/api/test-component/list" 0.1135413646697998
+2025-11-18 10:23:59.240 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.14360737800598145
+2025-11-18 10:23:59.402 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.15392518043518066
+2025-11-18 10:23:59.557 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.14624309539794922
+2025-11-18 10:23:59.709 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.14415454864501953
+2025-11-18 10:23:59.859 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.14226055145263672
+2025-11-18 10:24:00.006 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.13904356956481934
+2025-11-18 10:24:00.172 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.15693426132202148
+2025-11-18 10:24:00.330 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.1496737003326416
+2025-11-18 10:24:00.533 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.1459212303161621
+2025-11-18 10:24:00.665 | INFO     | xauth.auth:authenticate:48 | 认证请求 - Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90e...
+2025-11-18 10:24:00.711 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_components /tp/api/test-component/list" 0.13940787315368652
+2025-11-18 10:24:00.798 | INFO     | xauth.auth:authenticate:51 | 认证成功 - 用户: admin
+2025-11-18 10:24:00.853 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_components /tp/api/test-component/list" 0.1322636604309082
+2025-11-18 10:24:00.958 | INFO     | xadmin.logru_config:emit:23 | "GET - get_saved_plan_list /tpgen/saved-plans/list" 0.2935776710510254
+2025-11-18 10:24:00.963 | INFO     | xauth.auth:authenticate:48 | 认证请求 - Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90e...
+2025-11-18 10:24:01.026 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.1657400131225586
+2025-11-18 10:24:01.112 | INFO     | xauth.auth:authenticate:51 | 认证成功 - 用户: admin
+2025-11-18 10:24:01.200 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.16527462005615234
+2025-11-18 10:24:01.286 | INFO     | xadmin.logru_config:emit:23 | "GET - get_saved_plan_list /tpgen/saved-plans/list" 0.32297635078430176
+2025-11-18 10:24:01.395 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.18730711936950684
+2025-11-18 10:24:01.567 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.1634049415588379
+2025-11-18 10:24:01.720 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.14584946632385254
+2025-11-18 10:24:01.862 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.13428068161010742
+2025-11-18 10:24:02.029 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.1596531867980957
+2025-11-18 10:24:02.165 | INFO     | xadmin.logru_config:emit:23 | "GET - get_gpu_series_options /tp/api/sut-device/gpu-series-options" 0.13794779777526855
+2025-11-18 10:24:02.167 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_types /tp/api/test-type/list" 0.1340010166168213
+2025-11-18 10:24:02.179 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_components /tp/api/test-component/list" 0.13768267631530762
+2025-11-18 10:24:02.186 | INFO     | xadmin.logru_config:emit:23 | "GET - list_sut_devices /tp/api/sut-device/list" 0.15518975257873535
+2025-11-18 10:24:02.333 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_components /tp/api/test-component/list" 0.1441965103149414
+2025-11-18 10:24:02.352 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.1560533046722412
+2025-11-18 10:24:02.483 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.14008569717407227
+2025-11-18 10:24:02.499 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.13554811477661133
+2025-11-18 10:24:02.631 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.1388235092163086
+2025-11-18 10:24:02.646 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.13836932182312012
+2025-11-18 10:24:02.789 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.1491537094116211
+2025-11-18 10:24:02.809 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.15421032905578613
+2025-11-18 10:24:02.959 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_components /tp/api/test-component/list" 0.14008426666259766
+2025-11-18 10:24:02.970 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.17191791534423828
+2025-11-18 10:24:03.114 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.1463017463684082
+2025-11-18 10:24:03.127 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.14826440811157227
+2025-11-18 10:24:03.267 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_components /tp/api/test-component/list" 0.1429586410522461
+2025-11-18 10:24:03.308 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.17215466499328613
+2025-11-18 10:24:03.427 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.15071535110473633
+2025-11-18 10:24:03.475 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.15933680534362793
+2025-11-18 10:24:03.608 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.172760009765625
+2025-11-18 10:24:03.684 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.2011253833770752
+2025-11-18 10:24:03.802 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.1857612133026123
+2025-11-18 10:24:03.899 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.20797991752624512
+2025-11-18 10:24:04.104 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_components /tp/api/test-component/list" 0.19691157341003418
+2025-11-18 10:24:04.299 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_components /tp/api/test-component/list" 0.1875767707824707
+2025-11-18 10:24:04.468 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.16108965873718262
+2025-11-18 10:24:04.638 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.16218209266662598
+2025-11-18 10:24:04.806 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.1602342128753662
+2025-11-18 10:24:04.999 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.18490266799926758
+2025-11-18 10:24:05.200 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.1934354305267334
+2025-11-18 10:24:05.369 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.16212201118469238
+2025-11-18 10:24:05.550 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.17214083671569824
+2025-11-18 10:24:05.704 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_components /tp/api/test-component/list" 0.1462080478668213
+2025-11-18 10:24:05.890 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.17884182929992676
+2025-11-18 10:24:06.086 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.17567181587219238
+2025-11-18 10:24:06.290 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.19689655303955078
+2025-11-18 10:24:06.517 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.2190544605255127
+2025-11-18 10:24:06.681 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_components /tp/api/test-component/list" 0.1567838191986084
+2025-11-18 10:24:06.849 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.15865683555603027
+2025-11-18 10:24:07.010 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_components /tp/api/test-component/list" 0.1529397964477539
+2025-11-18 10:24:07.175 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.1559276580810547
+2025-11-18 10:24:07.339 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.15673613548278809
+2025-11-18 10:24:07.487 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.14070963859558105
+2025-11-18 10:24:27.663 | INFO     | xauth.auth:authenticate:48 | 认证请求 - Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90e...
+2025-11-18 10:24:27.785 | INFO     | xauth.auth:authenticate:51 | 认证成功 - 用户: admin
+2025-11-18 10:24:27.785 | INFO     | yaml_check.views:validate_yaml:42 | 收到 YAML 验证请求
+2025-11-18 10:24:27.786 | INFO     | yaml_check.validator:validate:395 | ========== 开始 YAML 验证流程 ==========
+2025-11-18 10:24:27.786 | INFO     | yaml_check.validator:validate_required_root_keys:172 | ✅ E001 验证通过：所有必需键存在
+2025-11-18 10:24:27.787 | INFO     | yaml_check.validator:validate_mandatory_non_empty_keys:256 | ✅ E002 验证通过：所有字段非空（或允许为空）
+2025-11-18 10:24:27.789 | INFO     | yaml_check.validator:validate_value_types:364 | ✅ E101 验证通过：所有字段类型正确
+2025-11-18 10:24:27.789 | INFO     | yaml_check.validator:validate_value_ranges:386 | ✅ E102 验证通过：值范围合法
+2025-11-18 10:24:27.789 | SUCCESS  | yaml_check.validator:validate:458 | ========== ✅ 所有验证通过 ==========
+2025-11-18 10:24:27.790 | INFO     | yaml_check.views:validate_yaml:60 | 验证完成，结果: 成功
+2025-11-18 10:24:27.790 | INFO     | yaml_check.views:validate_yaml:94 | 返回验证结果
+2025-11-18 10:24:27.790 | INFO     | xadmin.logru_config:emit:23 | "POST - validate_yaml /system/yaml/validate" 0.1279616355895996
+2025-11-18 10:24:30.112 | INFO     | xauth.auth:authenticate:48 | 认证请求 - Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90e...
+2025-11-18 10:24:30.242 | INFO     | xauth.auth:authenticate:51 | 认证成功 - 用户: admin
+2025-11-18 10:24:30.242 | INFO     | yaml_check.views:validate_yaml:42 | 收到 YAML 验证请求
+2025-11-18 10:24:30.242 | INFO     | yaml_check.validator:validate:395 | ========== 开始 YAML 验证流程 ==========
+2025-11-18 10:24:30.242 | INFO     | yaml_check.validator:validate_required_root_keys:172 | ✅ E001 验证通过：所有必需键存在
+2025-11-18 10:24:30.243 | INFO     | yaml_check.validator:validate_mandatory_non_empty_keys:256 | ✅ E002 验证通过：所有字段非空（或允许为空）
+2025-11-18 10:24:30.244 | INFO     | yaml_check.validator:validate_value_types:364 | ✅ E101 验证通过：所有字段类型正确
+2025-11-18 10:24:30.245 | INFO     | yaml_check.validator:validate_value_ranges:386 | ✅ E102 验证通过：值范围合法
+2025-11-18 10:24:30.245 | SUCCESS  | yaml_check.validator:validate:458 | ========== ✅ 所有验证通过 ==========
+2025-11-18 10:24:30.245 | INFO     | yaml_check.views:validate_yaml:60 | 验证完成，结果: 成功
+2025-11-18 10:24:30.245 | INFO     | yaml_check.views:validate_yaml:94 | 返回验证结果
+2025-11-18 10:24:30.245 | INFO     | xadmin.logru_config:emit:23 | "POST - validate_yaml /system/yaml/validate" 0.13358759880065918
+2025-11-18 10:24:38.453 | INFO     | xauth.auth:authenticate:48 | 认证请求 - Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90e...
+2025-11-18 10:24:38.767 | INFO     | xauth.auth:authenticate:51 | 认证成功 - 用户: admin
+2025-11-18 10:24:38.767 | INFO     | yaml_check.views:validate_yaml:42 | 收到 YAML 验证请求
+2025-11-18 10:24:38.767 | INFO     | yaml_check.validator:validate:395 | ========== 开始 YAML 验证流程 ==========
+2025-11-18 10:24:38.767 | INFO     | yaml_check.validator:validate_required_root_keys:172 | ✅ E001 验证通过：所有必需键存在
+2025-11-18 10:24:38.768 | INFO     | yaml_check.validator:validate_mandatory_non_empty_keys:256 | ✅ E002 验证通过：所有字段非空（或允许为空）
+2025-11-18 10:24:38.769 | INFO     | yaml_check.validator:validate_value_types:364 | ✅ E101 验证通过：所有字段类型正确
+2025-11-18 10:24:38.769 | INFO     | yaml_check.validator:validate_value_ranges:386 | ✅ E102 验证通过：值范围合法
+2025-11-18 10:24:38.769 | SUCCESS  | yaml_check.validator:validate:458 | ========== ✅ 所有验证通过 ==========
+2025-11-18 10:24:38.769 | INFO     | yaml_check.views:validate_yaml:60 | 验证完成，结果: 成功
+2025-11-18 10:24:38.769 | INFO     | yaml_check.views:validate_yaml:94 | 返回验证结果
+2025-11-18 10:24:38.770 | INFO     | xadmin.logru_config:emit:23 | "POST - validate_yaml /system/yaml/validate" 0.31706881523132324
+2025-11-18 10:24:43.752 | INFO     | xauth.auth:authenticate:48 | 认证请求 - Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90e...
+2025-11-18 10:24:43.878 | INFO     | xauth.auth:authenticate:51 | 认证成功 - 用户: admin
+2025-11-18 10:24:44.001 | INFO     | xadmin.logru_config:emit:23 | "POST - add_saved_plan /tpgen/saved-plans" 0.24924874305725098
+2025-11-18 10:24:45.244 | INFO     | xauth.auth:authenticate:48 | 认证请求 - Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90e...
+2025-11-18 10:24:45.363 | INFO     | xauth.auth:authenticate:51 | 认证成功 - 用户: admin
+2025-11-18 10:24:45.504 | INFO     | xadmin.logru_config:emit:23 | "GET - get_saved_plan_list /tpgen/saved-plans/list" 0.25989246368408203
+2025-11-18 10:24:45.512 | INFO     | xauth.auth:authenticate:48 | 认证请求 - Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90e...
+2025-11-18 10:24:45.636 | INFO     | xauth.auth:authenticate:51 | 认证成功 - 用户: admin
+2025-11-18 10:24:45.778 | INFO     | xadmin.logru_config:emit:23 | "GET - get_saved_plan_list /tpgen/saved-plans/list" 0.2664933204650879
+2025-11-18 10:24:47.717 | INFO     | xadmin.logru_config:emit:23 | "GET - get_gpu_series_options /tp/api/sut-device/gpu-series-options" 0.1404116153717041
+2025-11-18 10:24:47.718 | INFO     | xadmin.logru_config:emit:23 | "GET - list_sut_devices /tp/api/sut-device/list" 0.13870692253112793
+2025-11-18 10:25:03.286 | INFO     | xauth.auth:authenticate:48 | 认证请求 - Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90e...
+2025-11-18 10:25:03.417 | INFO     | xauth.auth:authenticate:51 | 认证成功 - 用户: admin
+2025-11-18 10:25:03.418 | INFO     | yaml_check.views:validate_yaml:42 | 收到 YAML 验证请求
+2025-11-18 10:25:03.418 | INFO     | yaml_check.validator:validate:395 | ========== 开始 YAML 验证流程 ==========
+2025-11-18 10:25:03.418 | INFO     | yaml_check.validator:validate_required_root_keys:172 | ✅ E001 验证通过：所有必需键存在
+2025-11-18 10:25:03.419 | WARNING  | yaml_check.validator:validate_mandatory_non_empty_keys:249 | E002: 字段 [environment.os.os] 值为空: 
+2025-11-18 10:25:03.419 | INFO     | yaml_check.views:validate_yaml:60 | 验证完成，结果: 失败
+2025-11-18 10:25:03.419 | WARNING  | yaml_check.views:validate_yaml:68 | 验证失败: [E002] Unsupported: empty value for [environment.os.os]
+2025-11-18 10:25:03.420 | INFO     | yaml_check.line_finder:find_key_line_number:73 | 找到完整 key 路径 'environment.os.os' 在第 18 行
+2025-11-18 10:25:03.420 | INFO     | yaml_check.views:validate_yaml:87 | 找到错误行号: 18, key: environment.os.os
+2025-11-18 10:25:03.420 | INFO     | yaml_check.views:validate_yaml:94 | 返回验证结果
+2025-11-18 10:25:03.420 | INFO     | xadmin.logru_config:emit:23 | "POST - validate_yaml /system/yaml/validate" 0.13385963439941406
+2025-11-18 10:25:06.172 | INFO     | xauth.auth:authenticate:48 | 认证请求 - Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90e...
+2025-11-18 10:25:06.311 | INFO     | xauth.auth:authenticate:51 | 认证成功 - 用户: admin
+2025-11-18 10:25:06.311 | INFO     | yaml_check.views:validate_yaml:42 | 收到 YAML 验证请求
+2025-11-18 10:25:06.311 | INFO     | yaml_check.validator:validate:395 | ========== 开始 YAML 验证流程 ==========
+2025-11-18 10:25:06.311 | INFO     | yaml_check.validator:validate_required_root_keys:172 | ✅ E001 验证通过：所有必需键存在
+2025-11-18 10:25:06.312 | WARNING  | yaml_check.validator:validate_mandatory_non_empty_keys:249 | E002: 字段 [environment.os.os] 值为空: 
+2025-11-18 10:25:06.312 | INFO     | yaml_check.views:validate_yaml:60 | 验证完成，结果: 失败
+2025-11-18 10:25:06.312 | WARNING  | yaml_check.views:validate_yaml:68 | 验证失败: [E002] Unsupported: empty value for [environment.os.os]
+2025-11-18 10:25:06.312 | INFO     | yaml_check.line_finder:find_key_line_number:73 | 找到完整 key 路径 'environment.os.os' 在第 18 行
+2025-11-18 10:25:06.313 | INFO     | yaml_check.views:validate_yaml:87 | 找到错误行号: 18, key: environment.os.os
+2025-11-18 10:25:06.313 | INFO     | yaml_check.views:validate_yaml:94 | 返回验证结果
+2025-11-18 10:25:06.313 | INFO     | xadmin.logru_config:emit:23 | "POST - validate_yaml /system/yaml/validate" 0.14080047607421875
+2025-11-19 09:46:52.285 | INFO     | xauth.api_auth:login:59 | 登录成功 - 用户: admin, Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90e...
+2025-11-19 09:46:52.286 | INFO     | xadmin.logru_config:emit:23 | "POST - login /system/auth/login" 2.00480318069458
+2025-11-19 09:46:52.302 | INFO     | xauth.auth:authenticate:48 | 认证请求 - Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90e...
+2025-11-19 09:46:55.990 | INFO     | xauth.auth:authenticate:51 | 认证成功 - 用户: admin
+2025-11-19 09:46:57.140 | INFO     | xadmin.logru_config:emit:23 | "GET - get_user_info /system/auth/user/info" 4.838401794433594
+2025-11-19 09:46:57.152 | INFO     | xauth.auth:authenticate:48 | 认证请求 - Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90e...
+2025-11-19 09:46:59.104 | INFO     | xauth.auth:authenticate:51 | 认证成功 - 用户: admin
+2025-11-19 09:46:59.371 | INFO     | xadmin.logru_config:emit:23 | "GET - get_user_route /system/auth/route" 2.2190771102905273
+2025-11-19 09:47:06.740 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_types /tp/api/test-type/list" 0.9714610576629639
+2025-11-19 09:47:06.741 | INFO     | xadmin.logru_config:emit:23 | "GET - get_gpu_series_options /tp/api/sut-device/gpu-series-options" 0.9816677570343018
+2025-11-19 09:47:06.898 | INFO     | xadmin.logru_config:emit:23 | "GET - list_sut_devices /tp/api/sut-device/list" 1.134507417678833
+2025-11-19 09:47:06.934 | INFO     | xadmin.logru_config:emit:23 | "GET - list_sut_devices /tp/api/sut-device/list" 1.1612565517425537
+2025-11-19 09:47:07.508 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_components /tp/api/test-component/list" 0.755704402923584
+2025-11-19 09:47:08.586 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 1.0679347515106201
+2025-11-19 09:47:10.577 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 1.9804706573486328
+2025-11-19 09:47:11.898 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 1.3093383312225342
+2025-11-19 09:47:12.375 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.46468210220336914
+2025-11-19 09:47:13.134 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.7511091232299805
+2025-11-19 09:47:13.608 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.46467089653015137
+2025-11-19 09:47:14.217 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.5999104976654053
+2025-11-19 09:47:14.930 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.7044148445129395
+2025-11-19 09:47:15.489 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.5480294227600098
+2025-11-19 09:47:16.110 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_components /tp/api/test-component/list" 0.6099185943603516
+2025-11-19 09:47:16.785 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_components /tp/api/test-component/list" 0.6619982719421387
+2025-11-19 09:47:18.068 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 1.2717945575714111
+2025-11-19 09:47:18.753 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.674619197845459
+2025-11-19 09:47:19.439 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.6777808666229248
+2025-11-19 09:47:20.183 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.7334451675415039
+2025-11-19 09:47:21.291 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 1.0997421741485596
+2025-11-19 09:47:22.655 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 1.3525917530059814
+2025-11-19 09:47:24.086 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 1.4221885204315186
+2025-11-19 09:47:25.283 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_components /tp/api/test-component/list" 1.1747031211853027
+2025-11-19 09:47:26.603 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 1.3083515167236328
+2025-11-19 09:47:28.592 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 1.980320692062378
+2025-11-19 09:47:29.934 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 1.3316214084625244
+2025-11-19 09:47:31.468 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 1.5218751430511475
+2025-11-19 09:47:34.001 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_components /tp/api/test-component/list" 2.522695779800415
+2025-11-19 09:47:35.050 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 1.0406832695007324
+2025-11-19 09:47:35.500 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_components /tp/api/test-component/list" 0.44098615646362305
+2025-11-19 09:47:36.402 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.8889131546020508
+2025-11-19 09:47:37.067 | INFO     | xauth.auth:authenticate:48 | 认证请求 - Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90e...
+2025-11-19 09:47:37.288 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.877655029296875
+2025-11-19 09:47:37.616 | INFO     | xauth.auth:authenticate:51 | 认证成功 - 用户: admin
+2025-11-19 09:47:37.979 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.681389331817627
+2025-11-19 09:47:38.504 | INFO     | xadmin.logru_config:emit:23 | "GET - get_saved_plan_list /tpgen/saved-plans/list" 1.4373798370361328
+2025-11-19 09:47:38.509 | INFO     | xauth.auth:authenticate:48 | 认证请求 - Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90e...
+2025-11-19 09:47:38.668 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_types /tp/api/test-type/list" 0.7395172119140625
+2025-11-19 09:47:38.669 | INFO     | xadmin.logru_config:emit:23 | "GET - get_gpu_series_options /tp/api/sut-device/gpu-series-options" 0.7467894554138184
+2025-11-19 09:47:38.791 | INFO     | xadmin.logru_config:emit:23 | "GET - list_sut_devices /tp/api/sut-device/list" 0.8658220767974854
+2025-11-19 09:47:40.022 | INFO     | xauth.auth:authenticate:51 | 认证成功 - 用户: admin
+2025-11-19 09:47:40.258 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_components /tp/api/test-component/list" 1.580341100692749
+2025-11-19 09:47:40.747 | INFO     | xadmin.logru_config:emit:23 | "GET - get_saved_plan_list /tpgen/saved-plans/list" 2.2379236221313477
+2025-11-19 09:47:40.988 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.7191681861877441
+2025-11-19 09:47:41.619 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.6221065521240234
+2025-11-19 09:47:42.393 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.7635998725891113
+2025-11-19 09:47:43.338 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.934518575668335
+2025-11-19 09:47:44.945 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 1.5971014499664307
+2025-11-19 09:47:46.173 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 1.2187399864196777
+2025-11-19 09:47:47.190 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 1.0049872398376465
+2025-11-19 09:47:47.697 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.4978644847869873
+2025-11-19 09:47:48.318 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.6118626594543457
+2025-11-19 09:47:49.264 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_components /tp/api/test-component/list" 0.9335157871246338
+2025-11-19 09:47:50.207 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_components /tp/api/test-component/list" 0.9327542781829834
+2025-11-19 09:47:51.195 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.978679895401001
+2025-11-19 09:47:51.628 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.42522263526916504
+2025-11-19 09:47:52.145 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.5070972442626953
+2025-11-19 09:47:52.548 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.39427733421325684
+2025-11-19 09:47:53.280 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.7223858833312988
+2025-11-19 09:47:54.531 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 1.2420272827148438
+2025-11-19 09:47:55.788 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 1.0003387928009033
+2025-11-19 09:47:56.217 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_components /tp/api/test-component/list" 0.41985583305358887
+2025-11-19 09:47:57.153 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.9277188777923584
+2025-11-19 09:47:57.531 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.3686091899871826
+2025-11-19 09:47:57.941 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.4019474983215332
+2025-11-19 09:47:58.250 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.30034708976745605
+2025-11-19 09:47:58.587 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_components /tp/api/test-component/list" 0.3279392719268799
+2025-11-19 09:47:58.998 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.4028353691101074
+2025-11-19 09:47:59.325 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_components /tp/api/test-component/list" 0.3195157051086426
+2025-11-19 09:47:59.614 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.27893924713134766
+2025-11-19 09:48:00.039 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.41671037673950195
+2025-11-19 09:48:00.433 | INFO     | xadmin.logru_config:emit:23 | "GET - list_test_cases /tp/api/test-case/list" 0.3852078914642334
+2025-11-19 09:48:01.734 | INFO     | xauth.auth:authenticate:48 | 认证请求 - Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90e...
+2025-11-19 09:48:02.234 | INFO     | xauth.auth:authenticate:51 | 认证成功 - 用户: admin
+2025-11-19 09:48:02.234 | INFO     | yaml_check.views:validate_yaml:42 | 收到 YAML 验证请求
+2025-11-19 09:48:02.235 | INFO     | yaml_check.validator:validate:395 | ========== 开始 YAML 验证流程 ==========
+2025-11-19 09:48:02.235 | INFO     | yaml_check.validator:validate_required_root_keys:172 | ✅ E001 验证通过：所有必需键存在
+2025-11-19 09:48:02.235 | WARNING  | yaml_check.validator:validate_mandatory_non_empty_keys:249 | E002: 字段 [environment.os.deployment] 值为空: 
+2025-11-19 09:48:02.235 | INFO     | yaml_check.views:validate_yaml:60 | 验证完成，结果: 失败
+2025-11-19 09:48:02.235 | WARNING  | yaml_check.views:validate_yaml:68 | 验证失败: [E002] Unsupported: empty value for [environment.os.deployment]
+2025-11-19 09:48:02.236 | INFO     | yaml_check.line_finder:find_key_line_number:73 | 找到完整 key 路径 'environment.os.deployment' 在第 19 行
+2025-11-19 09:48:02.236 | INFO     | yaml_check.views:validate_yaml:87 | 找到错误行号: 19, key: environment.os.deployment
+2025-11-19 09:48:02.236 | INFO     | yaml_check.views:validate_yaml:94 | 返回验证结果
+2025-11-19 09:48:02.236 | INFO     | xadmin.logru_config:emit:23 | "POST - validate_yaml /system/yaml/validate" 0.5017247200012207
+2025-11-19 09:48:08.649 | INFO     | xauth.auth:authenticate:48 | 认证请求 - Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90e...
+2025-11-19 09:48:09.286 | INFO     | xauth.auth:authenticate:51 | 认证成功 - 用户: admin
+2025-11-19 09:48:09.286 | INFO     | yaml_check.views:validate_yaml:42 | 收到 YAML 验证请求
+2025-11-19 09:48:09.286 | INFO     | yaml_check.validator:validate:395 | ========== 开始 YAML 验证流程 ==========
+2025-11-19 09:48:09.286 | INFO     | yaml_check.validator:validate_required_root_keys:172 | ✅ E001 验证通过：所有必需键存在
+2025-11-19 09:48:09.287 | WARNING  | yaml_check.validator:validate_mandatory_non_empty_keys:249 | E002: 字段 [environment.os.deployment] 值为空: 
+2025-11-19 09:48:09.287 | INFO     | yaml_check.views:validate_yaml:60 | 验证完成，结果: 失败
+2025-11-19 09:48:09.287 | WARNING  | yaml_check.views:validate_yaml:68 | 验证失败: [E002] Unsupported: empty value for [environment.os.deployment]
+2025-11-19 09:48:09.287 | INFO     | yaml_check.line_finder:find_key_line_number:73 | 找到完整 key 路径 'environment.os.deployment' 在第 19 行
+2025-11-19 09:48:09.287 | INFO     | yaml_check.views:validate_yaml:87 | 找到错误行号: 19, key: environment.os.deployment
+2025-11-19 09:48:09.288 | INFO     | yaml_check.views:validate_yaml:94 | 返回验证结果
+2025-11-19 09:48:09.288 | INFO     | xadmin.logru_config:emit:23 | "POST - validate_yaml /system/yaml/validate" 0.6384115219116211
+2025-11-19 09:48:13.042 | INFO     | xauth.auth:authenticate:48 | 认证请求 - Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90e...
+2025-11-19 09:48:13.296 | INFO     | xauth.auth:authenticate:51 | 认证成功 - 用户: admin
+2025-11-19 09:48:13.296 | INFO     | yaml_check.views:validate_yaml:42 | 收到 YAML 验证请求
+2025-11-19 09:48:13.296 | INFO     | yaml_check.validator:validate:395 | ========== 开始 YAML 验证流程 ==========
+2025-11-19 09:48:13.296 | INFO     | yaml_check.validator:validate_required_root_keys:172 | ✅ E001 验证通过：所有必需键存在
+2025-11-19 09:48:13.297 | WARNING  | yaml_check.validator:validate_mandatory_non_empty_keys:249 | E002: 字段 [environment.os.deployment] 值为空: 
+2025-11-19 09:48:13.297 | INFO     | yaml_check.views:validate_yaml:60 | 验证完成，结果: 失败
+2025-11-19 09:48:13.297 | WARNING  | yaml_check.views:validate_yaml:68 | 验证失败: [E002] Unsupported: empty value for [environment.os.deployment]
+2025-11-19 09:48:13.297 | INFO     | yaml_check.line_finder:find_key_line_number:73 | 找到完整 key 路径 'environment.os.deployment' 在第 19 行
+2025-11-19 09:48:13.297 | INFO     | yaml_check.views:validate_yaml:87 | 找到错误行号: 19, key: environment.os.deployment
+2025-11-19 09:48:13.297 | INFO     | yaml_check.views:validate_yaml:94 | 返回验证结果
+2025-11-19 09:48:13.298 | INFO     | xadmin.logru_config:emit:23 | "POST - validate_yaml /system/yaml/validate" 0.2557706832885742
+2025-11-19 09:48:59.610 | INFO     | xauth.auth:authenticate:48 | 认证请求 - Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90e...
+2025-11-19 09:49:01.316 | INFO     | xauth.auth:authenticate:51 | 认证成功 - 用户: admin
+2025-11-19 09:49:01.316 | INFO     | yaml_check.views:validate_yaml:42 | 收到 YAML 验证请求
+2025-11-19 09:49:01.317 | INFO     | yaml_check.validator:validate:395 | ========== 开始 YAML 验证流程 ==========
+2025-11-19 09:49:01.317 | INFO     | yaml_check.validator:validate_required_root_keys:172 | ✅ E001 验证通过：所有必需键存在
+2025-11-19 09:49:01.317 | WARNING  | yaml_check.validator:validate_mandatory_non_empty_keys:249 | E002: 字段 [environment.os.deployment] 值为空: 
+2025-11-19 09:49:01.317 | INFO     | yaml_check.views:validate_yaml:60 | 验证完成，结果: 失败
+2025-11-19 09:49:01.317 | WARNING  | yaml_check.views:validate_yaml:68 | 验证失败: [E002] Unsupported: empty value for [environment.os.deployment]
+2025-11-19 09:49:01.318 | INFO     | yaml_check.line_finder:find_key_line_number:73 | 找到完整 key 路径 'environment.os.deployment' 在第 19 行
+2025-11-19 09:49:01.318 | INFO     | yaml_check.views:validate_yaml:87 | 找到错误行号: 19, key: environment.os.deployment
+2025-11-19 09:49:01.318 | INFO     | yaml_check.views:validate_yaml:94 | 返回验证结果
+2025-11-19 09:49:01.318 | INFO     | xadmin.logru_config:emit:23 | "POST - validate_yaml /system/yaml/validate" 1.7077445983886719
+2025-11-19 09:49:07.479 | INFO     | xauth.auth:authenticate:48 | 认证请求 - Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90e...
+2025-11-19 09:49:08.379 | INFO     | xauth.auth:authenticate:51 | 认证成功 - 用户: admin
+2025-11-19 09:49:08.379 | INFO     | yaml_check.views:validate_yaml:42 | 收到 YAML 验证请求
+2025-11-19 09:49:08.379 | INFO     | yaml_check.validator:validate:395 | ========== 开始 YAML 验证流程 ==========
+2025-11-19 09:49:08.379 | INFO     | yaml_check.validator:validate_required_root_keys:172 | ✅ E001 验证通过：所有必需键存在
+2025-11-19 09:49:08.380 | INFO     | yaml_check.validator:validate_mandatory_non_empty_keys:256 | ✅ E002 验证通过：所有字段非空（或允许为空）
+2025-11-19 09:49:08.380 | INFO     | yaml_check.validator:validate_value_types:364 | ✅ E101 验证通过：所有字段类型正确
+2025-11-19 09:49:08.380 | INFO     | yaml_check.validator:validate_value_ranges:386 | ✅ E102 验证通过：值范围合法
+2025-11-19 09:49:08.380 | SUCCESS  | yaml_check.validator:validate:458 | ========== ✅ 所有验证通过 ==========
+2025-11-19 09:49:08.380 | INFO     | yaml_check.views:validate_yaml:60 | 验证完成，结果: 成功
+2025-11-19 09:49:08.380 | INFO     | yaml_check.views:validate_yaml:94 | 返回验证结果
+2025-11-19 09:49:08.381 | INFO     | xadmin.logru_config:emit:23 | "POST - validate_yaml /system/yaml/validate" 0.901860237121582
+2025-11-19 09:49:18.607 | INFO     | xauth.auth:authenticate:48 | 认证请求 - Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90e...
+2025-11-19 09:49:19.558 | INFO     | xauth.auth:authenticate:51 | 认证成功 - 用户: admin
+2025-11-19 09:49:20.519 | INFO     | xadmin.logru_config:emit:23 | "POST - add_saved_plan /tpgen/saved-plans" 1.9123198986053467
+2025-11-19 09:49:22.537 | INFO     | xauth.auth:authenticate:48 | 认证请求 - Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90e...
+2025-11-19 09:49:23.450 | INFO     | xauth.auth:authenticate:51 | 认证成功 - 用户: admin
+2025-11-19 09:49:24.666 | INFO     | xadmin.logru_config:emit:23 | "GET - get_saved_plan_list /tpgen/saved-plans/list" 2.129538059234619
+2025-11-19 09:49:24.674 | INFO     | xauth.auth:authenticate:48 | 认证请求 - Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90e...
+2025-11-19 09:49:25.606 | INFO     | xauth.auth:authenticate:51 | 认证成功 - 用户: admin
+2025-11-19 09:49:26.830 | INFO     | xadmin.logru_config:emit:23 | "GET - get_gpu_series_options /tp/api/sut-device/gpu-series-options" 1.1133582592010498
+2025-11-19 09:49:26.927 | INFO     | xadmin.logru_config:emit:23 | "GET - get_saved_plan_list /tpgen/saved-plans/list" 2.2536861896514893
+2025-11-19 09:49:26.932 | INFO     | xauth.auth:authenticate:48 | 认证请求 - Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90e...
+2025-11-19 09:49:27.095 | INFO     | xadmin.logru_config:emit:23 | "GET - list_sut_devices /tp/api/sut-device/list" 1.3751449584960938
+2025-11-19 09:49:28.306 | INFO     | xauth.auth:authenticate:51 | 认证成功 - 用户: admin
+2025-11-19 09:49:29.711 | INFO     | xadmin.logru_config:emit:23 | "GET - get_saved_plan_list /tpgen/saved-plans/list" 2.778768539428711
+2025-11-19 09:49:29.716 | INFO     | xauth.auth:authenticate:48 | 认证请求 - Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90e...
+2025-11-19 09:49:31.682 | INFO     | xauth.auth:authenticate:51 | 认证成功 - 用户: admin
+2025-11-19 09:49:34.497 | INFO     | xadmin.logru_config:emit:23 | "GET - get_saved_plan_list /tpgen/saved-plans/list" 4.781571388244629
