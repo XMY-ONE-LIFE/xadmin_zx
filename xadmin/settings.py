@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "xauth",  # 合并了 xadmin_db 和 xadmin_auth
     "xadmin_tpgen",  # TPGEN 保存计划管理
     "tpgen.apps.TpgenConfig",
+    "xcase",  # ← 添加这一行
 ]
 
 MIDDLEWARE = [
@@ -90,6 +91,7 @@ WSGI_APPLICATION = "xadmin.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
+        'CONN_HEALTH_CHECKS': True,  
         "NAME": "xadmin",
         "USER": "amd",
         "PASSWORD": "amdyes",
@@ -100,8 +102,27 @@ DATABASES = {
         "OPTIONS": {
             "options": "-c TimeZone=Asia/Shanghai",
         },
-    }
+        "ATOMIC_REQUESTS": False,  # 添加 ATOMIC_REQUESTS 配置
+    },
+
+    # tpdb 数据库配置已废弃，所有应用现在统一使用 xadmin 数据库
+    # "tpdb": {
+    #     "ENGINE": "django.db.backends.postgresql",
+    #     'CONN_HEALTH_CHECKS': True, 
+    #     "NAME": "tpdb",
+    #     "USER": "amd",
+    #     "PASSWORD": "amdyes",
+    #     "HOST": "10.67.167.53",
+    #     "PORT": 5433,
+    #     "OPTIONS": {
+    #         "options": "-c TimeZone=Asia/Shanghai",
+    #     },
+    #     "ATOMIC_REQUESTS": False,
+    # },
 }
+
+# 数据库路由配置 - 所有应用现在都使用 xadmin 数据库（tpdb_apps 列表已清空）
+DATABASE_ROUTERS = ['xadmin.database_router.UnifiedTpdbRouter']
 
 # Cache
 CACHES = {
@@ -181,9 +202,9 @@ NINJA_JWT = {
     "USER_ID_CLAIM": "user_id",
 }
 
-REDIS_HOST = "127.0.0.1"
+REDIS_HOST = "10.67.167.53"  # 远程 Redis 服务器
 REDIS_PORT = 6379
-REDIS_PASSWORD = "amdyes"
+REDIS_PASSWORD = "dsy_201411"  # 远程 Redis 密码
 REDIS_DB = 0
 
 TITW_SUPER_USER = "admin"
