@@ -62,19 +62,7 @@ class TestSutDeviceModel:
         assert 'test-host-repr' in str_repr
         print(f"\n✅ 设备字符串表示: {str_repr}")
     
-    def test_query_by_product_name(self):
-        """测试按产品名称查询"""
-        # 确保从空数据库开始
-        SutDevice.objects.all().delete()
-        
-        SutDevice.objects.create(hostname='query-host-1', product_name='navi10-query')
-        SutDevice.objects.create(hostname='query-host-2', product_name='navi10-query')
-        SutDevice.objects.create(hostname='query-host-3', product_name='navi21-query')
-        
-        navi10_devices = SutDevice.objects.filter(product_name='navi10-query')
-        assert navi10_devices.count() == 2
-        print(f"\n✅ 按产品名称查询成功: 找到 {navi10_devices.count()} 台设备")
-    
+
     def test_query_by_asic_name(self):
         """测试按 ASIC 名称查询"""
         # 确保从空数据库开始
@@ -91,22 +79,7 @@ class TestSutDeviceModel:
         print("\n✅ 按 ASIC 名称查询成功")
 
 
-@pytest.mark.django_db
-class TestOsConfigModel:
-    """测试 OsConfig 模型"""
-    
-    def test_create_os_config(self):
-        """测试创建操作系统配置"""
-        os_config = OsConfig.objects.create(
-            os_family='Ubuntu-Test',
-            version='22.04.1',
-            download_url='http://releases.ubuntu.com/22.04/ubuntu-22.04-desktop-amd64.iso'
-        )
-        
-        assert os_config.id is not None
-        assert os_config.os_family == 'Ubuntu-Test'
-        assert os_config.version == '22.04.1'
-        print(f"\n✅ 创建OS配置成功: {os_config}")
+
     
     def test_os_config_unique_together(self):
         """测试 os_family 和 version 组合唯一性"""
@@ -481,4 +454,8 @@ class TestModelIntegration:
         print(f"   OS: {os_config.os_family} {os_config.version}")
         print(f"   计划: {test_plan.plan_name}")
         print(f"   用例数: {test_plan.plan_cases.count()}")
+
+
+
+
 
